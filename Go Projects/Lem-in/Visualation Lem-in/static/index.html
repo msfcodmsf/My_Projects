@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ant Paths Output</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="output-block">
+            <div id="output"></div>
+        </div>
+        <div id="ant-farm">
+            <svg id="ant-farm-svg" width="800" height="600"></svg>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        // Fetch the output from the Go server and display it
+        fetch('/output')
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('output').textContent = text;
+                drawAntFarm(text);
+            })
+            .catch(error => {
+                console.error('Error fetching the output:', error);
+            });
+
+        function drawAntFarm(output) {
+            const svg = document.getElementById('ant-farm-svg');
+            svg.innerHTML = ''; // Clear previous drawings
+            const paths = output.split('\n').filter(line => line.trim() !== '');
+
+            const rooms = {
+                a: [100, 50], b: [50, 150], c: [150, 150], d: [250, 50], e: [100, 250],
+                f: [250, 150], g: [200, 250], h: [100, 350], i: [350, 50], j: [300, 150],
+                k: [300, 250], l: [150, 350], m: [350, 250], n: [300, 350]
+            };
+
+            const links = [
+                ['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'i'], ['i', 'j'], ['j', 'm'],
+                ['c', 'f'], ['f', 'g'], ['e', 'h'], ['h', 'l'], ['l', 'n'], ['g', 'k'], ['k', 'm']
+            ];
+
+            // Draw links
+            for (const [start, end] of links) {
+                const [x1, y1] = rooms[start];
+                const [x2, y2] = rooms[end];
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('stroke', 'black');
+                svg.appendChild(line);
+            }
+
+            // Draw rooms
+            for (const [room, coords] of Object.entries(rooms)) {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', coords[0]);
+                circle.setAttribute('cy', coords[1]);
+                circle.setAttribute('r', 10);
+                circle.setAttribute('fill', 'red');
+                svg.appendChild(circle);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', coords[0] + 15);
+                text.setAttribute('y', coords[1]);
+                text.setAttribute('fill', 'black');
+                text.textContent = room;
+                svg.appendChild(text);
+            }
+
+            // Fetch ant amount and start/end rooms from the Go server
+            const antAmount = 10; // This should be fetched from the Go server
+            const startRoom = 'a'; // This should be fetched from the Go server
+            const endRoom = 'm'; // This should be fetched from the Go server
+
+            // Highlight start and end rooms
+            const startCoords = rooms[startRoom];
+            const endCoords = rooms[endRoom];
+
+            const startCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startCircle.setAttribute('cx', startCoords[0]);
+            startCircle.setAttribute('cy', startCoords[1]);
+            startCircle.setAttribute('r', 10);
+            startCircle.setAttribute('fill', 'green');
+            svg.appendChild(startCircle);
+
+            const endCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            endCircle.setAttribute('cx', endCoords[0]);
+            endCircle.setAttribute('cy', endCoords[1]);
+            endCircle.setAttribute('r', 10);
+            endCircle.setAttribute('fill', 'blue');
+            svg.appendChild(endCircle);
+
+            // Draw ants with numbers
+            for (let i = 1; i <= antAmount; i++) {
+                const antText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                antText.setAttribute('x', 400);
+                antText.setAttribute('y', 20 + i * 20);
+                antText.setAttribute('fill', 'black');
+                antText.textContent = 'L' + i;
+                svg.appendChild(antText);
+            }
+
+            // Animate ants
+            let stepIndex = 0;
+            function moveAnts() {
+                if (stepIndex >= paths.length) return;
+
+                const step = paths[stepIndex].split(' ');
+
+                for (const move of step) {
+                    const [ant, room] = move.split('-');
+                    const antId = 'ant-' + ant.replace('L', '');
+
+                    let antCircle = document.getElementById(antId);
+                    if (!antCircle) {
+                        antCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        antCircle.setAttribute('id', antId);
+                        antCircle.setAttribute('r', 5);
+                        antCircle.setAttribute('fill', 'green');
+                        svg.appendChild(antCircle);
+                    }
+
+                    const [x, y] = rooms[room];
+                    antCircle.setAttribute('cx', x);
+                    antCircle.setAttribute('cy', y);
+                }
+
+                stepIndex++;
+                setTimeout(moveAnts, 1000);
+            }
+
+            moveAnts();
+        }
+    </script>
+</body>
+</html>
