@@ -1,0 +1,358 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#banner {
+    width: 100%;
+    height: 25%;
+    background-color: #8edc35;
+}
+
+body.light-mode #banner {
+    width: 100%;
+    height: 25%;
+}
+
+#logo {
+    float: left;
+    margin-right: 50px;
+}
+
+#düzenbar {
+    width: 50%;
+    height: 5%;
+    display: flex;
+    margin-left: 25%;
+}
+#bar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#left {
+    width: 15%;
+    height: 80%;
+    float: left;
+    border-style: groove;
+    border-width: 1%;
+    border-color: white;
+}
+
+#filtre1 {
+    margin-top: 250px;
+}
+
+#center {
+    width: 60%;
+    height: 80%;
+    float: left;
+    border-style: groove;
+    border-width: 1%;
+    border-color: white;
+}
+
+#centercont {
+    width: 100%;
+    height: 5%;
+    background-color: #8edc35;
+    margin-top: 2%;
+
+}
+
+#centerolustur {
+    width: 100%;
+    height: 5%;
+    background-color: red;
+    margin-bottom: 1%;
+}
+
+#centerolusturbutton {
+    width: 15%;
+    height: 100%;
+    background-color: red;
+    float: left;
+    margin-left: 2%;
+}
+
+#centerprofilcont {
+    width: 7%;
+    height: 100%;
+    background-color: rgb(20, 25, 31);
+    float: left;
+}
+
+#profil {
+    border-radius: 100%;
+    width: 60%;
+    height: 100%;
+    background-color: #8edc35;
+    margin-left: 20%;
+}
+
+#centersorubaslik {
+    width: 80%;
+    height: 100%;
+    float: left;
+    background-color: #dc3545;
+}
+
+#centersorukatagori {
+    width: 13%;
+    height: 100%;
+    float: left;
+    background-color: #c8a527;
+}
+
+#right {
+    width: 24%;
+    height: 90%;
+    float: left;
+    border-style: groove;
+    border-width: 1%;
+    border-color: white;
+}
+
+
+/* Gece modu */
+body.night-mode {
+    background-color:rgb(20, 25, 31);
+    color: white;
+}
+
+body.night-mode a {
+    color: white;
+}
+
+body.night-mode #bar {
+    background-color: rgb(20, 25, 31);
+}
+
+body.night-mode #left {
+    background-color: rgb(20, 25, 31);
+}
+
+body.night-mode #center {
+    background-color: rgb(20, 25, 31);
+}
+
+body.night-mode #right {
+    background-color: rgb(20, 25, 31);
+}
+
+/* Gündüz modu */
+body.light-mode {
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+body.light-mode #bar {
+    background-color: rgb(255, 255, 255);
+}
+
+body.light-mode #left {
+    background-color: rgb(255, 255, 255);
+}
+
+body.light-mode #center {
+    background-color: rgb(255, 255, 255);
+}
+
+body.light-mode #right {
+    background-color: rgb(255, 255, 255);
+}
+
+/* Tema modu ikon */
+.theme-mode {
+    margin-left: auto;
+    display: block;
+}
+
+.theme-mode:hover,
+.theme-mode:focus,
+.theme-mode:active {
+    transform: rotate(1deg);
+    transition-duration: 1.2s;
+}
+
+.theme-mode a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.theme-mode i {
+    transition: all 0.2s ease;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(20, 25, 31);
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+li a:hover, .menu:hover {
+    background-color: rgb(255, 68, 0);
+}
+
+li.menu {
+    display: inline-block;
+}
+
+.acilir-menu {
+    display: none;
+    position: absolute;
+    background-color: rgb(20, 25, 31);
+    min-width: 5%;
+}
+
+.acilir-menu a {
+    display: block;
+    text-align: left;
+}
+
+.acilir-menu a:hover {
+    color: white;
+}
+
+.menu:hover .acilir-menu {
+    display: block;
+}
+
+.aktif {
+    background-color: #1A3680;
+    color: white;
+}
+
+body.light-mode ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(236, 236, 236);
+    color: black;
+}
+
+body.light-mode li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* Gündüz modu */
+body.light-mode .acilir-menu{
+    display: none;
+    position: absolute;
+    background-color: rgb(236, 236, 236);
+    min-width: 5%;
+}
+
+body.light-mode .acilir-menu a {
+    background-color: rgb(236, 236, 236);
+    color: black;
+    display: block;
+    text-align: left;
+}
+
+body.light-mode .acilir-menu a:hover {
+    color: black;
+}
+
+body.light-mode .menu:hover .acilir-menu {
+    color: black;
+    display: block;
+}
+
+body.light-mode li a:hover, .menu:hover {
+    background-color: rgb(255, 68, 0);
+    color: black;
+}
+
+
+
+
+#searchBox {
+    width: 100%; /* Tam genişlik */
+    padding: 10px;
+    background-color: rgb(65, 68, 70);
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Kenarları yuvarla */
+    box-sizing: border-box; /* Padding ve border'ı genişliğe dahil et */
+}
+
+/* ... (diğer stiller) */
+
+#resultsContainer {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d11515; /* Açık gri arka plan */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+}
+
+#resultsContainer li {
+    cursor: pointer;
+    padding: 12px 15px; /* İçeriğe daha fazla boşluk */
+    border-bottom: 1px solid #eee; 
+    transition: background-color 0.2s; /* Geçiş efekti ekle */
+}
+
+#resultsContainer li:last-child {
+    border-bottom: none; 
+}
+
+#resultsContainer li:hover {
+    background-color: #961111; /* Daha belirgin hover efekti */
+}
+
+#resultsContainer div {
+    padding: 10px;
+    font-weight: bold; 
+    background-color:rgb(65, 68, 70); /* Başlık için farklı arka plan */
+    border-bottom: 1px solid #ddd;
+}
+
+
+#onaylaButton {
+    background-color: #8edc35; /* Kırmızı arka plan */
+    color: white; /* Beyaz metin */
+    border: none; /* Kenarlık yok */
+    padding: 8px 15px; /* İç boşluk */
+    border-radius: 5px; /* Yuvarlak köşeler */
+    cursor: pointer; /* Tıklanabilir olduğunu gösteren imleç */
+    transition: background-color 0.2s; /* Arka plan rengi geçiş efekti */
+}
+
+#clearButton {
+    background-color: #dc3545; /* Kırmızı arka plan */
+    color: white; /* Beyaz metin */
+    border: none; /* Kenarlık yok */
+    padding: 8px 15px; /* İç boşluk */
+    border-radius: 5px; /* Yuvarlak köşeler */
+    cursor: pointer; /* Tıklanabilir olduğunu gösteren imleç */
+    transition: background-color 0.2s; /* Arka plan rengi geçiş efekti */
+}
+
+#clearButton:hover {
+    background-color: #c82333; /* Hover efekti için daha koyu kırmızı */
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Forum</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <div id="düzenbar">
+    <div id="bar">
+        <img id="logo" src="/templates/logo.png">
+        <ul>
+            <li><a href="/templates/index.html">Anasayfa</a></li>
+            <li><a href="/templates/gündem.html">Gündem</a></li>
+            <li class="menu"><a href="/templates/sosyal.html" >Sosyal</a>
+              <div class="acilir-menu">
+                <a href="/templates/bekleyensorular.html">Cevap Bekleyen Sorular</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+              </div>
+            </li>
+            <li><a href="sss.html">SSS</a></li>
+          </ul>
+        <span class="theme-mode"></span>
+    </div>
+</div>
+    <div id="left">
+        <div id="cont">
+            <h1>Filtre</h1>
+            <form>
+               
+                <h2>İstediğin dili seç</h2>
+                <input type="text" id="searchBox" placeholder="Dil ara..." onkeyup="searchLanguages()">
+
+                <div id="filter1">
+                    <div id="resultsContainer"></div>
+                </div>
+                <div id="filtre1"></div>
+                    <h2>Zamanı sınırla</h2>
+                    <input type="checkbox" id="age1" name="age" value="Yeni">
+                    <label for="age1">Yeni</label><br>
+                    <input type="checkbox" id="age2" name="age" value="En çok beğeni alan">
+                    <label for="age2">En çok beğeni alan</label><br>  
+                    <input type="checkbox" id="age3" name="age" value="100">
+                    <label for="age3">Çözülmemiş</label><br><br>
+                    <input id="onaylaButton" type="submit" value="Değişiklikleri Uygula">
+                    <button id="clearButton">Temizle</button>
+            </form>
+        </div>
+    </div>
+    <div id="center">
+        <div id="centerolustur"></div>
+        <div id="centercont"></div>
+    </div>
+    <div id="right"></div>
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
