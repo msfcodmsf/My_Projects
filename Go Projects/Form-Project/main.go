@@ -70,7 +70,10 @@ func main() {
 	defer db.Close()
 
 	createTables()
-
+	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+	
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/register", registerHandler)
 	http.HandleFunc("/login", loginHandler)
@@ -83,8 +86,8 @@ func main() {
 	http.HandleFunc("/filter", filterHandler)
 	http.HandleFunc("/viewPost", viewPostHandler)
 
-	log.Println("Server started at :8080")
-	http.ListenAndServe(":8080", nil)
+	log.Println("Server started at :8065")
+	http.ListenAndServe(":8065", nil)
 }
 
 func createTables() {
@@ -176,7 +179,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		posts = append(posts, post)
 	}
 
-	tmpl, err := template.ParseFiles("templates/home.html")
+	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
