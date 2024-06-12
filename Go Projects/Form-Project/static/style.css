@@ -1,359 +1,121 @@
+/* General styles */
 html, body {
     height: 100%;
     width: 100%;
     margin: 0;
+    overflow: auto;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
 }
 
-#banner {
-    width: 100%;
-    height: 25%;
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --button-hover-color: rgb(22, 59, 97);
 }
 
-body.light-mode #banner {
-    width: 100%;
-    height: 25%;
+/* Genel olarak kaydırma çubuğuna stillendirme uygulama */
+::-webkit-scrollbar {
+    width: 12px; /* Kaydırma çubuğu genişliği */
 }
 
+/* Kaydırma çubuğunun track kısmının rengi */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Kaydırma çubuğunun thumb kısmını yuvarlak yapma */
+::-webkit-scrollbar-thumb {
+    background: #007bff; /* Thumb rengi */
+    border-radius: 6px; /* Yuvarlak köşeler */
+}
+
+/* Kaydırma çubuğunun thumb kısmının üzerine gelindiğindeki rengini değiştirme */
+::-webkit-scrollbar-thumb:hover {
+    background: #0056b3; /* Thumb üzerine gelindiğindeki renk */
+}
+
+
+/**BAR**/
 #logo {
     float: left;
     margin-right: 50px;
 }
-
+#bigbar{
+    width: 99.1%;
+    height: 6%;
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    background-color: #163b61;
+}
 #düzenbar {
     width: 57%;
     height: 5%;
     display: flex;
     margin-left: 21%;
+    position: fixed;
+    z-index: 1;
 }
 #bar {
     width: 100%;
     height: 100%;
     display: flex;
 }
-
+#görünmezbar {
+    width: 100%;
+    height: 3%;
+    display: flex;
+}
 #girişbar {
     width: 25%;
     height: 100%;
     margin-left: 27%;
-    padding-top: 5px;
+    padding-top: 1px;
+    margin-top: 1%;
 }
-
+#myprofil {
+    width: 50px; /* Profil resminin genişliği */
+    height: 50px; /* Profil resminin yüksekliği */
+    border-radius: 50%; /* Resmi yuvarlak yapar */
+    overflow: hidden; /* Resmin sınırlarını yuvarlak yapar */
+    cursor: pointer; /* İmlecin üstüne geldiğinde el işareti görüntüler, tıklanabilir hale getirir */
+    float: left; /* Profil resmini sola kaydırır */
+    margin-right: 10px; /* Profil resmi ile "Log Out" bağlantısı arasında boşluk bırakır */
+    margin-top: -5px;
+}
+#myprofil img {
+    width: 100%; /* Resmi konteynerin genişliğine uygun olarak ayarlar */
+    height: auto; /* Orantılı olarak yüksekliği ayarlar */
+}
 #darkmod {
     width: 3%;
     height: 70%;
     margin-left: 5%;
-    padding-top: 10px;
+    margin-top: 1%;
+    padding-top: 7px;
     padding-left: 5px;
 }
-
-#alt {
-    float: right;
+#searchBox {
+    width: 40%;
+    height: 65%;
+    margin-top: 1%;
 }
 
+/* Buttons */
 .button {
     display: inline-block;
     padding: 10px 20px;
     text-decoration: none;
-    background-color: rgb(239, 242, 246); /* Örnek renk */
-    color: black; /* Yazı rengi */
+    background-color: rgb(239, 242, 246);
+    color: black;
     border-radius: 5px;
+    transition: background-color 1.2s;
 }
-
 .button:hover {
-    background-color: #c86a12; /* Hover durumunda rengi değiştir */
+    background-color: var(--button-hover-color);
 }
-
-
-#left {
-    width: 12%;
-    height: 80%;
-    float: left;
-    margin-left: 21%;
-    margin-top: 2%;
-}
-
-#leftkatagoricont {
-    width: 100%;
-    height: 5%;
-    background-color: #8edc35;
-    margin-top: 5%;
-}
-
-#filtre1 {
-    margin-top: 250px;
-}
-
-#center {
-    width: 45%;
-    height: 100%;
-    float: left;
-    margin-top: 2%;
-
-}
-
-#centercont {
-    width: 100%;
-    height: 10%;
-    margin-top: 2%;
-    background-color: rgb(24, 95, 182);
-}
-
-#centerolustur {
-    width: 80%;
-    height: 4%;
-    background-color: rgb(18, 40, 205);
-    border-radius: 5%;
-    text-align: center;
-    padding-top: 15px;
-    margin-top: 10%;
-}
-
-#centerprofilcont {
-    width: 25%;
-    height: 100%;
-    background-color: white;
-    float: left;
-    background-color:rgb(239, 242, 246);
-}
-
-#profil {
-    border-radius: 100%;
-    width: 65%;
-    height: 100%;
-    background-color: #8edc35;
-    margin-left: 20%;
-}
-
-#centersorubaslik {
-    margin-bottom: 3%;
-    width: 60%;
-    height: 100%;
-    float: left;
-
-    background-color:rgb(239, 242, 246);
-}
-
-#centerlike {
-    width: 30%;
-    height: 10%;
-    float: left;
-    background-color:rgb(239, 242, 246);
-}
-
-#centersorukatagori {
-    width: 15%;
-    height: 100%;
-    float: left;
-    background-color:rgb(239, 242, 246);
-}
-
-
-/* Tema modu ikon */
-.theme-mode {
-    margin-left: auto;
-    display: block;
-}
-
-.theme-mode:hover,
-.theme-mode:focus,
-.theme-mode:active {
-    transform: rotate(1deg);
-    transition-duration: 1.2s;
-}
-
-.theme-mode a {
-    text-decoration: none;
-}
-
-.theme-mode i {
-    transition: all 0.2s ease;
-}
-
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-li {
-    float: left;
-}
-
-li a {
-    color: black;
-    text-align: center;
-    text-decoration: none;
-}
-
-li a:hover, .menu:hover { /*ÖNEMLİİİ*/
-    color: #8edc35;
-}
-
-
-/* Gece modu */
-body.night-mode {
-    background-color:rgb(20, 25, 31);
-    color: rgb(255, 255, 255);
-}
-
-
-body.night-mode .button {  
-    background-color:rgb(29, 38, 49);
-  color: rgb(255, 255, 255); 
-}
-
-body.light-mode .button {  
-    background-color:rgb(24, 157, 102);
-  color: rgb(255, 255, 255); 
-}
-
-
-body.night-mode #bar,
-body.night-mode #düzenbar,
-body.night-mode #girişbar,
-body.night-mode #left,
-body.night-mode #center {
-  background-color: rgb(20, 25, 31);
-  color: rgb(255, 255, 255);
-}
-
-body.night-mode #searchBox {
-    background-color: rgb(20, 25, 31);
-    color: white;
-    border: 1px groove white;
-}
-
-body.night-mode #centersorubaslik,
-body.night-mode #centerprofilcont,
-body.night-mode #centerlike,
-body.night-mode #centercont,
-body.night-mode #centersorukatagori
-body.night-modeu ul,
-body.night-mode li,
-body.night-mode li a {
-    background-color:rgb(29, 38, 49);
-    color: white;
-}
-
-body.night-mode #centerlike {
-    height: 38%;
-}
-
-/***********************************************/
-/* Gündüz modu */
-body.light-mode {
-  background-color: rgb(255, 255, 255);
-  color: black;
-}
-body.light-mode #bar,
-body.light-mode #girişbar,
-body.light-mode #düzenbar {
-    background-color: rgb(255, 255, 255);
-    color: black;
-}
-
-body.light-mode ul {
-    background-color: rgb(255, 255, 255);
-    color: black;
-}
-
-body.light-mode li a {
-    color: black;
-}
-
-body.light-mode #searchBox {
-    background-color: rgb(168, 172, 178);
-    color: black;
-    border: 1px groove black;
-}
-
-
-body.light-mode #centersorubasli,
-body.light-mode #centerprofilcont,
-body.light-mode #girişbar,
-body.light-mode #centerlike,
-body.light-mode #centersorukatagori {
-    background-color:rgb(239, 242, 246);
-}
-
-body.night-mode #centersorubasli,
-body.night-mode #centerprofilcont,
-body.night-mode #centerlike,
-body.night-mode #centersorukatagori {
-    background-color: rgb(29, 38, 49);
-}
-
-
-/* Tema Modu İkon */
-#themeToggle i {
-  transition: all 0.2s ease;
-}
-
-#themeIcon.fas.fa-sun {
-  color: orange; 
-}
-
-#themeIcon.fas.fa-moon {
-  color: rgb(209, 209, 209); 
-}
-
-#placeholder {
-    color: #8edc35;
-}
-
-#searchBox {
-    width: 40%; /* Tam genişlik */
-    height: 65%;
-    margin-top: 5px;
-}
-
-/* ... (diğer stiller) */
-
-#resultsContainer {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px; 
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #d11515; /* Açık gri arka plan */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
-}
-
-#resultsContainer li {
-    cursor: pointer;
-    padding: 12px 15px; /* İçeriğe daha fazla boşluk */
-    border-bottom: 1px solid #eee; 
-    transition: background-color 0.2s; /* Geçiş efekti ekle */
-}
-
-#resultsContainer li:last-child {
-    border-bottom: none; 
-}
-
-#resultsContainer li:hover {
-    background-color: #961111; /* Daha belirgin hover efekti */
-}
-
-#resultsContainer div {
-    padding: 10px;
-    font-weight: bold; 
-    background-color:rgb(65, 68, 70); /* Başlık için farklı arka plan */
-    border-bottom: 1px solid #ddd;
-}
-
-
-#onaylaButton {
-    background-color: #8edc35; /* Kırmızı arka plan */
-    color: rgb(255, 255, 255); /* Beyaz metin */
-    border: none; /* Kenarlık yok */
-    padding: 8px 15px; /* İç boşluk */
-    border-radius: 5px; /* Yuvarlak köşeler */
-    cursor: pointer; /* Tıklanabilir olduğunu gösteren imleç */
-    transition: background-color 0.2s; /* Arka plan rengi geçiş efekti */
-}
-
 #clearButton {
     background-color: #dc3545; /* Kırmızı arka plan */
     color: rgb(255, 255, 255); /* Beyaz metin */
@@ -363,7 +125,478 @@ body.night-mode #centersorukatagori {
     cursor: pointer; /* Tıklanabilir olduğunu gösteren imleç */
     transition: background-color 0.2s; /* Arka plan rengi geçiş efekti */
 }
-
 #clearButton:hover {
     background-color: #c82333; /* Hover efekti için daha koyu kırmızı */
+}
+/* Close Button */
+.close {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* SIDEBAR CATEGORIES */
+#left {
+    width: 10%;
+    height: 100%;
+    float: left;
+    margin-left: 21%;
+    margin-top: 2%;
+    position: fixed;
+}
+#leftkatagoricont {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 5%;
+    margin-top: 5%;
+    color: var(--text-color);
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-family: 'Arial', sans-serif;
+}
+#leftkatagoricontyazı {
+    width: 90%;
+    padding-left: 10px;
+    color: var(--text-color);
+}
+#leftkatagoricontfoto {
+    height: 90%;
+    width: 20%;
+    padding-top: 10%;
+    color: var(--text-color);
+}
+#leftkatagoricont:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/**fİLTRE CONTAINER**/
+#filtrecont {
+    width: 100%;
+    height: 5%;
+}
+#filtre {
+    width: 10%;
+    height: 70%;
+    float: left;
+    margin-right: 5%;
+    text-align: center;
+    padding-top: 15px;
+    background-color: rgb(239, 242, 246);
+    border-radius: 5px;
+    transition: background-color 1.2s;
+}
+#filtre:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+/**CENTER CONTAINER**/
+.post {
+    position: relative; /* Gönderi kapsayıcısını konumlandırma için göreceli yap */
+    display: flex;
+    align-items: center;
+    background-color: rgb(239, 242, 246);
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.post:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#name {
+    width: 100%;
+    height: 15%;
+    text-align: center;
+}
+#center {
+    width: 45%;
+    height: 100%;
+    float: right;
+    margin-top: 2%;
+    margin-right: 23%;
+    position: relative;
+}
+#centercont {
+    width: 100%;
+    height: 10%;
+    margin-top: 2%;
+    border-radius: 10px 0 0 10px;
+}
+#centerolustur {
+    display: block;
+    width: 80%;
+    height: 4%;
+    background-color: rgb(18, 40, 205);
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 15px;
+    text-decoration: none; /* varsayılan link altı çizgisi kaldırıldı */
+    color: white; /* varsayılan metin rengi ayarlandı */
+}
+#centerolustur:hover {
+    background-color: #163b61;
+}
+#centerprofilcont {
+    width: 25%;
+    height: 100%;
+    float: left;
+    background-color: rgb(239, 242, 246);
+    border-radius: 10px 0 0 10px;
+    text-align: center;
+}
+#profil {
+    border-radius: 100%;
+    width: 40%;
+    height: 50%;
+    margin-left: 30%;
+}
+#centersorubaslik {
+    margin-bottom: 3%;
+    width: 60%;
+    height: 100%;
+    float: left;
+    background-color: rgb(239, 242, 246);
+    overflow: hidden;
+}
+#centerlike {
+    width: 30%;
+    height: 20%;
+    margin-left: 60%;
+}
+#centersorukatagori {
+    width: 15%;
+    height: 100%;
+    float: left;
+    background-color: rgb(239, 242, 246);
+    border-radius: 0 10px 10px 0;
+    text-align: center;
+    padding-top: 10%;
+}
+#deletePostForm {
+    position: absolute;
+    top: 10px; /* Gönderinin üst kısmından 10 piksel aşağıda */
+    right: 10px; /* Gönderinin sağ kısmından 10 piksel içeride */
+}
+#deletePostForm button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#deletePostForm img {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Theme toggle icon */
+.theme-mode {
+    margin-left: auto;
+    display: block;
+}
+.theme-mode:hover,
+.theme-mode:focus,
+.theme-mode:active {
+    transform: rotate(1deg);
+    transition-duration: 1.2s;
+}
+.theme-mode a {
+    text-decoration: none;
+}
+.theme-mode i {
+    transition: all 0.2s ease;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+li {
+    float: left;
+}
+li a {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+li a:hover, .menu:hover {
+    color: rgb(22, 59, 97);
+}
+
+
+/**Night Mode**/
+body.night-mode {
+    --background-color: rgb(20, 25, 31);
+    --text-color: #ffffff;
+}
+body.night-mode .button {
+    background-color: rgb(29, 38, 49);
+    color: white;
+}
+body.night-mode .button:hover {
+    background-color: var(--button-hover-color);
+}
+body.night-mode li a:hover, .menu:hover {
+    color: rgb(22, 59, 97);
+}
+body.night-mode #leftkatagoricont {
+    background-color: rgb(29, 38, 49);
+}
+body.night-mode .button {
+    background-color: rgb(29, 38, 49);
+    color: white;
+}
+body.night-mode #filtre {
+    background-color: rgb(29, 38, 49);
+}
+
+body.night-mode #filtre:hover {
+    background-color: var(--button-hover-color);
+}
+body.night-mode .post {
+    background-color: rgb(29, 38, 49);
+}
+body.night-mode #searchBox {
+    background-color: rgb(20, 25, 31);
+    color: white;
+    border: 1px groove white;
+}
+body.night-mode #centersorubaslik,
+body.night-mode #centerprofilcont,
+body.night-mode #centerlike,
+body.night-mode #mesajlasmaAlani,
+body.night-mode #mesajGonder,
+body.night-mode #mesajMetni,
+body.night-mode #mesajGirisi,
+body.night-mode #filtre,
+body.night-mode #mesajlasmaBaslik,
+body.night-mode #mesajlardaAra,
+body.night-mode #mesajListesi,
+body.night-mode #leftkatagoricont,
+body.night-mode #centersorukatagori,
+body.night-mode ul,
+body.night-mode .post,
+body.night-mode li,
+body.night-mode li a {
+    background-color: rgb(29, 38, 49);
+    color: white;
+}
+body.night-mode #centerlike {
+    height: 38%;
+}
+body.night-mode #popup {
+    background-color: rgb(29, 38, 49);
+    color: white;
+}
+
+/* Light Mode */
+body.light-mode #searchBox {
+    background-color: rgb(168, 172, 178);
+    color: black;
+    border: 1px groove black;
+}
+body.light-mode #popup {
+    background-color: rgb(239, 242, 246);
+    color: black;
+}
+
+/* Theme toggle icon */
+#themeToggle i {
+    transition: all 0.2s ease;
+}
+#themeIcon.fas.fa-sun {
+    color: orange;
+}
+#themeIcon.fas.fa-moon {
+    color: rgb(209, 209, 209);
+}
+
+#resultsContainer {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#resultsContainer li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#resultsContainer li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Form elemanlarını dikeyde hizalama */
+    padding-top: 20px; /* Form üstündeki boşluk */
+} 
+label {
+    font-size: 18px;
+}
+button {
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: black;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+    transition-duration: 1.2s;
+}
+textarea {
+    resize: none;
+}
+
+/* Mesajlaşma Alanı */
+#mesajlasmaAlani {
+    width: 400px; /* Genişlik */
+    height: 500px; /* Yükseklik */
+    position: fixed;
+    top: 50%;
+    right: 1%;
+    background-color: white;
+    border: 1px solid #e1e2e3; /* Çerçeve rengi */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+/* Mesajlaşma Başlığı */
+#mesajlasmaBaslik {
+    background-color: #f5f6f7; /* Açık gri arkaplan */
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex; /* Başlık ve arama kutusunu yan yana yerleştir */
+    align-items: center;
+    justify-content: space-between; /* Elemanlar arasına boşluk ekle */
+}
+
+#mesajlasmaBaslik h3 {
+    margin: 0;
+}
+
+/* Mesaj Arama Kutusu */
+#mesajlardaAra {
+    width: 180px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+/* Mesaj Listesi */
+#mesajListesi {
+    padding: 10px;
+}
+
+/* Mesajlar */
+.mesaj {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start; /* Mesaj içeriğini yukarıya hizala */
+}
+
+/* Profil Resmi */
+.mesaj .profilResmi {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+/* Mesaj İçeriği */
+.mesaj .mesajIcerik {
+    background-color: #e4a40e;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    max-width: 70%; /* Mesajın çok uzun olmaması için */
+    word-wrap: break-word; /* Kelimelerin satır sonunda kesilmesini sağlar */
+}
+/* Gönderilen Mesaj */
+.mesaj.ben .mesajIcerik {
+    background-color: #14c15f;
+    color: black;
+    align-self: flex-end; /* Gönderilen mesajları sağa yasla */
+}
+/* Mesaj Tarihi */
+.mesaj .mesajTarihi {
+    font-size: 12px;
+    color: black;
+    margin-top: 5px;
+    align-self: flex-end; /* Tarihi mesaj içeriğiyle aynı hizaya getir */
+}
+/* Mesaj Girişi */
+#mesajGirisi {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 97%;
+    background-color: #f5f6f7;
+    border-top: 1px solid #e1e2e3;
+}
+
+#mesajMetni {
+    flex-grow: 1;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    height: 36px; /* Metin alanı yüksekliği */
+}
+
+#mesajGonder {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Diğer ve Odaklı Sekmeleri */
+#mesajlasmaAlani #filtrecont {
+    display: flex;
+    justify-content: space-around; /* Sekmeleri eşit aralıklarla dağıt */
+    padding: 10px;
+    border-bottom: 1px solid #e1e2e3;
+}
+
+#mesajlasmaAlani #filtre {
+    background-color: transparent; /* Arkaplan rengini kaldır */
+    border: none;
+    padding: 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#mesajlasmaAlani #filtre.aktif { /* Aktif sekme için stil */
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
 }

@@ -3,15 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <!-- CSS Stilleri -->
+    <style>
+        /* Genel vücut stillemesi */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Arka plan rengi */
+        }
+
+        /* Gece modu için stillemeler */
+        body.night-mode {
+            background-color: rgb(20, 25, 31); /* Gece modu arka plan rengi */
+            color: white; /* Gece modu metin rengi */
+        }
+
+        /* Gece modunda giriş container'ı stillemesi */
+        body.night-mode .login-container {
+            background-color: rgb(29, 38, 49); /* Gece modunda container arka plan rengi */
+            color: white; /* Gece modunda metin rengi */
+        }
+        a {
+            margin-left: 28%;
+            text-decoration: none;
+        }
+        /* Giriş container'ı stillemesi */
+        .login-container {
+            position: relative;
+            background-color: #fff; /* Container arka plan rengi */
+            padding: 5%; /* Padding */
+            width: 25%; /* Genişlik */
+            border-radius: 10px; /* Köşe yuvarlaklığı */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Gölge */
+        }
+
+        /* Kapat düğmesi stillemesi */
+        .close-btn {
+            position: absolute;
+            top: 10px; /* Üstten boşluk */
+            right: 10px; /* Sağdan boşluk */
+            width: 30px; /* Genişlik */
+            height: 30px; /* Yükseklik */
+            background-color: transparent; /* Arka plan rengi */
+            border: none; /* Kenarlık */
+            font-size: 24px; /* Yazı tipi boyutu */
+            cursor: pointer; /* İmleç */
+            color: black; /* Metin rengi */
+            display: flex; /* Öğe görüntüleme */
+            align-items: center; /* Öğeleri dikeyde hizalama */
+            justify-content: center; /* Öğeleri yatayda hizalama */
+        }
+
+        /* Başlık stillemesi */
+        h1 {
+            text-align: center; /* Metin hizalama */
+            margin-bottom: 20px; /* Alt boşluk */
+        }
+
+        /* Etiket stillemesi */
+        label {
+            display: block; /* Öğe görüntüleme */
+            margin-bottom: 5px; /* Alt boşluk */
+            text-align: center; /* Metin hizalama */
+            font-weight: bold; /* Kalın yazı tipi */
+        }
+
+        /* Giriş kutusu stillemesi */
+        input[type="email"],
+        input[type="password"] {
+            display: block; /* Öğe görüntüleme */
+            width: 80%; /* Genişlik */
+            margin: 0 auto 15px auto; /* Dış boşluklar */
+            padding: 10px; /* Dolgu */
+            border: 1px solid #ccc; /* Kenarlık */
+            border-radius: 5px; /* Köşe yuvarlaklığı */
+            box-sizing: border-box; /* Kutu boyutu */
+        }
+
+        /* Giriş düğmesi stillemesi */
+        button {
+            display: block; /* Öğe görüntüleme */
+            width: 86%; /* Genişlik */
+            margin: 0 auto; /* Dış boşluklar */
+            padding: 10px; /* Dolgu */
+            border: none; /* Kenarlık */
+            border-radius: 5px; /* Köşe yuvarlaklığı */
+            background-color: #007BFF; /* Arka plan rengi */
+            color: #fff; /* Metin rengi */
+            font-size: 16px; /* Yazı tipi boyutu */
+            cursor: pointer; /* İmleç */
+            box-sizing: border-box; /* Kutu boyutu */
+        }
+
+        /* Giriş düğmesi hover stillemesi */
+        button:hover {
+            background-color: #0056b3; /* Arka plan rengi */
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Login</button>
-    </form>
+    <!-- Scripts etiketi -->
+    <script src="/static/scripts.js"></script>
+    <!-- Giriş container'ı -->
+    <div class="login-container" id="login-container">
+        <!-- Kapat düğmesi -->
+        <button class="close-btn" onclick="closeLogin()">×</button>
+        <!-- Başlık -->
+        <h1>Login</h1>
+        <!-- Giriş formu -->
+        <form action="/login" method="post">
+            <!-- Email girişi -->
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <!-- Şifre girişi -->
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <!-- Giriş düğmesi -->
+            <button type="submit">Login</button>
+        </form>
+        <br>
+        <!-- Tema değiştirme düğmesi -->
+        <button id="themeToggle">Toggle Theme</button> 
+       <p><a href="/register">Don't you have a subscription?</a></p> 
+    </div>
+    <!-- Tema değiştirme betiği -->
+    <script>
+        // Sayfa yüklendiğinde temayı ayarla
+        window.onload = function() {
+            let tema = localStorage.getItem("tema") || "light"; // Varsayılan tema
+            document.body.classList.add(tema + "-mode"); // Varsa "light-mode" veya "dark-mode" ekle
+        };
+
+        // Tema değiştirme düğmesini dinle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'night-mode' : 'light-mode';
+            changeTheme(currentTheme);
+        });
+
+        // Giriş sayfasına yönlendirme fonksiyonu
+        function closeLogin() {
+            window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>

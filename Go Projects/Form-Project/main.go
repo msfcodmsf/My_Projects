@@ -8,19 +8,25 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
+
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var db *sql.DB
+var (
+	db       *sql.DB
+	validate *validator.Validate
+)
 
 type User struct {
-	ID       int
-	Email    string
-	Username string
-	Password string
+	ID       int    `validate:"-"`
+	Email    string `validate:"required,email"`
+	Username string `validate:"required,alphanum,min=3,max=20"`
+	Password string `validate:"required,min=6"`
 }
 
 type Post struct {
@@ -28,7 +34,7 @@ type Post struct {
 	UserID             int
 	Title              string
 	Content            string
-	Categories         []string
+	Categories         []string // JSON olarak kaydedilecek ve geri okunacak
 	CreatedAt          time.Time
 	CreatedAtFormatted string
 	LikeCount          int
@@ -69,25 +75,38 @@ func main() {
 	}
 	defer db.Close()
 
+	validate = validator.New()
+
 	createTables()
+	//Bu örnek, sadece static/ dizinindeki dosyaların sunulmasını sağlar ve güvenlik risklerini azaltır.
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, r.URL.Path[1:])
+		path := r.URL.Path[1:]
+		if !strings.HasPrefix(path, "static/") {
+			http.NotFound(w, r)
+			return
+		}
+		http.ServeFile(w, r, path)
 	})
-	
+
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/register", registerHandler)
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/logout", logoutHandler)
 	http.HandleFunc("/createPost", createPostHandler)
 	http.HandleFunc("/createComment", createCommentHandler)
-	http.HandleFunc("/likeHandler", likeHandler)
-	http.HandleFunc("/DislikeHandler", dislikeHandler)
+	http.HandleFunc("/deletePost", deletePostHandler)
+	http.HandleFunc("/deleteComment", deleteCommentHandler)
 	http.HandleFunc("/vote", voteHandler)
 	http.HandleFunc("/filter", filterHandler)
 	http.HandleFunc("/viewPost", viewPostHandler)
+	http.HandleFunc("/myprofil", myProfileHandler) 
 
 	log.Println("Server started at :8065")
 	http.ListenAndServe(":8065", nil)
+}
+func handleErr(w http.ResponseWriter, err error, userMessage string, code int) {
+	log.Printf("Error: %v", err)
+	http.Error(w, userMessage, code)
 }
 
 func createTables() {
@@ -156,12 +175,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 				FROM posts
 				JOIN users ON posts.user_id = users.id
 				LEFT JOIN votes ON votes.post_id = posts.id
+				WHERE posts.deleted = 0
 				GROUP BY posts.id
 				ORDER BY posts.created_at DESC`
 
 	rows, err := db.Query(query)
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 	defer rows.Close()
@@ -171,7 +191,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		var post Post
 		var username string
 		if err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.CreatedAt, &username, &post.LikeCount, &post.DislikeCount); err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 		post.CreatedAtFormatted = post.CreatedAt.Format("2006-01-02 15:04")
@@ -181,7 +201,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
@@ -195,7 +215,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = tmpl.Execute(w, data)
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 	}
 }
 
@@ -204,16 +224,51 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 		username := r.FormValue("username")
 		password := r.FormValue("password")
+		confirmPassword := r.FormValue("confirm_password")
+
+		user := User{
+			Email:    email,
+			Username: username,
+			Password: password,
+		}
+
+		err := validate.Struct(user)
+		if err != nil {
+			if _, ok := err.(validator.ValidationErrors); ok {
+				errorMessages := make(map[string]string)
+				for _, err := range err.(validator.ValidationErrors) {
+					switch err.Field() {
+					case "Username":
+						errorMessages[err.Field()] = "Username must be at least 4 characters long."
+					case "Password":
+						errorMessages[err.Field()] = "Password must be at least 6 characters long."
+					default:
+						errorMessages[err.Field()] = fmt.Sprintf("Field validation for '%s' failed on the '%s' tag", err.Field(), err.Tag())
+					}
+				}
+				renderRegisterTemplate(w, errorMessages)
+				return
+			}
+			handleErr(w, err, "Invalid input", http.StatusBadRequest)
+			return
+		}
+
+		if password != confirmPassword {
+			errorMessages := make(map[string]string)
+			errorMessages["ConfirmPassword"] = "Password and confirm password do not match."
+			renderRegisterTemplate(w, errorMessages)
+			return
+		}
 
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
 		_, err = db.Exec("INSERT INTO users (email, username, password) VALUES (?, ?, ?)", email, username, hashedPassword)
 		if err != nil {
-			http.Error(w, "Email or username already taken", http.StatusBadRequest)
+			handleErr(w, err, "Email or username already taken", http.StatusBadRequest)
 			return
 		}
 
@@ -221,8 +276,20 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, _ := template.ParseFiles("templates/register.html")
-	tmpl.Execute(w, nil)
+	renderRegisterTemplate(w, nil)
+}
+
+func renderRegisterTemplate(w http.ResponseWriter, errorMessages map[string]string) {
+	tmpl, err := template.ParseFiles("templates/register.html")
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.Execute(w, errorMessages)
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+	}
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
@@ -230,59 +297,75 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
 
-		var user User
-		err := db.QueryRow("SELECT id, password FROM users WHERE email = ?", email).Scan(&user.ID, &user.Password)
+		var id int
+		var hashedPassword string
+		err := db.QueryRow("SELECT id, password FROM users WHERE email = ?", email).Scan(&id, &hashedPassword)
 		if err != nil {
-			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+			handleErr(w, err, "Invalid email or password", http.StatusUnauthorized)
 			return
 		}
 
-		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+		err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 		if err != nil {
-			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+			handleErr(w, err, "Invalid email or password", http.StatusUnauthorized)
 			return
 		}
 
-		sessionID := uuid.NewString()
-		expiry := time.Now().Add(24 * time.Hour)
+		sessionToken := uuid.New().String()
+		expiresAt := time.Now().Add(10 * time.Minute)
 
-		_, err = db.Exec("INSERT INTO sessions (id, user_id, expiry) VALUES (?, ?, ?)", sessionID, user.ID, expiry)
+		_, err = db.Exec("INSERT INTO sessions (id, user_id, expiry) VALUES (?, ?, ?)", sessionToken, id, expiresAt)
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
 		http.SetCookie(w, &http.Cookie{
-			Name:    "session_id",
-			Value:   sessionID,
-			Expires: expiry,
+			Name:     "session_token",
+			Value:    sessionToken,
+			Expires:  expiresAt,
+			HttpOnly: true,
+			Secure:   true, // Ensure this is set when using HTTPS
 		})
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	tmpl, _ := template.ParseFiles("templates/login.html")
-	tmpl.Execute(w, nil)
-}
-
-func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("session_id")
+	tmpl, err := template.ParseFiles("templates/login.html")
 	if err != nil {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	_, err = db.Exec("DELETE FROM sessions WHERE id = ?", cookie.Value)
+	err = tmpl.Execute(w, nil)
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("session_token")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	sessionToken := cookie.Value
+	_, err = db.Exec("DELETE FROM sessions WHERE id = ?", sessionToken)
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:   "session_id",
-		Value:  "",
-		MaxAge: -1,
+		Name:    "session_token",
+		Value:   "",
+		Expires: time.Now().Add(-1 * time.Second),
 	})
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -300,16 +383,17 @@ func createPostHandler(w http.ResponseWriter, r *http.Request) {
 		content := r.FormValue("content")
 		categories := r.Form["categories"]
 
+		// Kategorileri JSON formatına dönüştür
 		categoriesJSON, err := json.Marshal(categories)
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
 		_, err = db.Exec("INSERT INTO posts (user_id, title, content, categories, created_at) VALUES (?, ?, ?, ?, ?)",
 			session.UserID, title, content, categoriesJSON, time.Now())
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -317,13 +401,17 @@ func createPostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, _ := template.ParseFiles("templates/createPost.html")
+	tmpl, err := template.ParseFiles("templates/createPost.html")
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
 	tmpl.Execute(w, nil)
 }
 
 func createCommentHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := getSession(r)
-	if err != nil {
+	if err != nil || session == nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
@@ -332,10 +420,15 @@ func createCommentHandler(w http.ResponseWriter, r *http.Request) {
 		postID := r.FormValue("post_id")
 		content := r.FormValue("content")
 
+		if content == "" {
+			handleErr(w, nil, "Content is required", http.StatusBadRequest)
+			return
+		}
+
 		_, err := db.Exec("INSERT INTO comments (post_id, user_id, content, created_at) VALUES (?, ?, ?, ?)",
 			postID, session.UserID, content, time.Now())
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -344,59 +437,87 @@ func createCommentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func likeHandler(w http.ResponseWriter, r *http.Request) {
+func deletePostHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := getSession(r)
-	if err != nil {
+	if err != nil || session == nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 
 	postID := r.FormValue("post_id")
-	commentID := r.FormValue("comment_id")
-
-	if postID != "" {
-		_, err = db.Exec("INSERT INTO likes (user_id, post_id) VALUES (?, ?)", session.UserID, postID)
-	} else if commentID != "" {
-		_, err = db.Exec("INSERT INTO likes (user_id, comment_id) VALUES (?, ?)", session.UserID, commentID)
-	}
-
-	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	if postID == "" {
+		http.Error(w, "Post ID is required", http.StatusBadRequest)
 		return
 	}
 
-	http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
+	var userID int
+	err = db.QueryRow("SELECT user_id FROM posts WHERE id = ?", postID).Scan(&userID)
+	if err != nil {
+		handleErr(w, err, "Post not found", http.StatusNotFound)
+		return
+	}
+
+	if userID != session.UserID {
+		http.Error(w, "You can only delete your own posts", http.StatusForbidden)
+		return
+	}
+
+	_, err = db.Exec("UPDATE posts SET deleted = 1 WHERE id = ?", postID)
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func dislikeHandler(w http.ResponseWriter, r *http.Request) {
+func deleteCommentHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := getSession(r)
-	if err != nil {
+	if err != nil || session == nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 
-	postID := r.FormValue("post_id")
 	commentID := r.FormValue("comment_id")
-
-	if postID != "" {
-		_, err = db.Exec("INSERT INTO Dislikes (user_id, post_id) VALUES (?, ?)", session.UserID, postID)
-	} else if commentID != "" {
-		_, err = db.Exec("INSERT INTO Dislikes (user_id, comment_id) VALUES (?, ?)", session.UserID, commentID)
-	}
-
-	if err != nil {
-		log.Println("Error disliking:", err)
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	if commentID == "" {
+		http.Error(w, "Comment ID is required", http.StatusBadRequest)
 		return
 	}
 
-	http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
+	var userID, postID int
+	err = db.QueryRow("SELECT user_id, post_id FROM comments WHERE id = ?", commentID).Scan(&userID, &postID)
+	if err != nil {
+		handleErr(w, err, "Comment not found", http.StatusNotFound)
+		return
+	}
+
+	var postOwnerID int
+	err = db.QueryRow("SELECT user_id FROM posts WHERE id = ?", postID).Scan(&postOwnerID)
+	if err != nil {
+		handleErr(w, err, "Post not found", http.StatusNotFound)
+		return
+	}
+
+	if userID != session.UserID && postOwnerID != session.UserID {
+		http.Error(w, "You can only delete your own comments or comments on your posts", http.StatusForbidden)
+		return
+	}
+
+	_, err = db.Exec("UPDATE comments SET deleted = 1 WHERE id = ?", commentID)
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, fmt.Sprintf("/viewPost?id=%d", postID), http.StatusSeeOther)
 }
 
 func voteHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := getSession(r)
-	if err != nil {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	if err != nil || session == nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{"redirect": "/login"})
 		return
 	}
 
@@ -404,10 +525,9 @@ func voteHandler(w http.ResponseWriter, r *http.Request) {
 	commentID := r.FormValue("comment_id")
 	voteTypeStr := r.FormValue("vote_type")
 
-	// Convert voteType from string to integer
 	voteType, err := strconv.Atoi(voteTypeStr)
 	if err != nil || (voteType != 1 && voteType != -1) {
-		http.Error(w, "Invalid vote type", http.StatusBadRequest)
+		handleErr(w, err, "Invalid vote type", http.StatusBadRequest)
 		return
 	}
 
@@ -423,7 +543,7 @@ func voteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil && err != sql.ErrNoRows {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
@@ -456,11 +576,32 @@ func voteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
+	// Oy sayısını yeniden hesapla ve JSON olarak dön
+	var likeCount, dislikeCount int
+	if postID != "" {
+		err = db.QueryRow(`SELECT 
+			COALESCE(SUM(CASE WHEN vote_type = 1 THEN 1 ELSE 0 END), 0) AS like_count,
+			COALESCE(SUM(CASE WHEN vote_type = -1 THEN 1 ELSE 0 END), 0) AS dislike_count
+			FROM votes WHERE post_id = ?`, postID).Scan(&likeCount, &dislikeCount)
+	} else if commentID != "" {
+		err = db.QueryRow(`SELECT 
+			COALESCE(SUM(CASE WHEN vote_type = 1 THEN 1 ELSE 0 END), 0) AS like_count,
+			COALESCE(SUM(CASE WHEN vote_type = -1 THEN 1 ELSE 0 END), 0) AS dislike_count
+			FROM votes WHERE comment_id = ?`, commentID).Scan(&likeCount, &dislikeCount)
+	}
+
+	if err != nil {
+		handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	response := map[string]int{"like_count": likeCount, "dislike_count": dislikeCount}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
 func filterHandler(w http.ResponseWriter, r *http.Request) {
@@ -493,7 +634,11 @@ func filterHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		json.Unmarshal([]byte(categories), &post.Categories)
+		err = json.Unmarshal([]byte(categories), &post.Categories)
+		if err != nil {
+			handleErr(w, err, "Error parsing categories", http.StatusInternalServerError)
+			return
+		}
 		posts = append(posts, post)
 	}
 
@@ -514,21 +659,30 @@ func viewPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var post Post
-	var categories string
-	err := db.QueryRow(`SELECT posts.id, posts.user_id, posts.title, posts.content, posts.created_at, users.username,
+	var categoriesJSON string // Kategorileri tutmak için bir değişken tanımlayın
+	err := db.QueryRow(`SELECT posts.id, posts.user_id, posts.title, posts.content, posts.categories, posts.created_at, users.username,
 						COALESCE(SUM(CASE WHEN votes.vote_type = 1 THEN 1 ELSE 0 END), 0) AS like_count,
 						COALESCE(SUM(CASE WHEN votes.vote_type = -1 THEN 1 ELSE 0 END), 0) AS dislike_count
 						FROM posts
 						JOIN users ON posts.user_id = users.id
 						LEFT JOIN votes ON votes.post_id = posts.id
-						WHERE posts.id = ?
-						GROUP BY posts.id`, postID).Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.CreatedAt, &post.Username, &post.LikeCount, &post.DislikeCount)
+						WHERE posts.id = ? AND posts.deleted = 0
+						GROUP BY posts.id`, postID).Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &categoriesJSON, &post.CreatedAt, &post.Username, &post.LikeCount, &post.DislikeCount)
 	if err != nil {
 		http.Error(w, "Post not found", http.StatusNotFound)
 		return
 	}
-	json.Unmarshal([]byte(categories), &post.Categories)
+
+	// Kategorileri JSON'dan çıkar
+	var categories []string
+	err = json.Unmarshal([]byte(categoriesJSON), &categories)
+	if err != nil {
+		handleErr(w, err, "Error parsing categories", http.StatusInternalServerError)
+		return
+	}
+
 	post.CreatedAtFormatted = post.CreatedAt.Format("2006-01-02 15:04")
+	post.Categories = categories // Post nesnesine kategorileri ata
 
 	rows, err := db.Query(`SELECT comments.id, comments.post_id, comments.user_id, comments.content, comments.created_at, users.username,
 							COALESCE(SUM(CASE WHEN votes.vote_type = 1 THEN 1 ELSE 0 END), 0) AS like_count,
@@ -536,7 +690,7 @@ func viewPostHandler(w http.ResponseWriter, r *http.Request) {
 							FROM comments
 							JOIN users ON comments.user_id = users.id
 							LEFT JOIN votes ON votes.comment_id = comments.id
-							WHERE comments.post_id = ?
+							WHERE comments.post_id = ? AND comments.deleted = 0
 							GROUP BY comments.id`, postID)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -575,22 +729,52 @@ func viewPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func myProfileHandler(w http.ResponseWriter, r *http.Request) {
+    session, err := getSession(r)
+    if err != nil || session == nil { // Check session explicitly
+        http.Redirect(w, r, "/login", http.StatusSeeOther) 
+        return
+    }
+
+    // Optionally, fetch user data from the database based on session.UserID
+    // and pass it to the template
+
+    tmpl, err := template.ParseFiles("templates/myprofil.html")
+    if err != nil {
+        handleErr(w, err, "Internal server error", http.StatusInternalServerError)
+        return
+    }
+    tmpl.Execute(w, nil) // Pass user data if fetched
+}
+
 func getSession(r *http.Request) (*Session, error) {
-	cookie, err := r.Cookie("session_id")
+	cookie, err := r.Cookie("session_token")
 	if err != nil {
+		if err == http.ErrNoCookie {
+			return nil, nil
+		}
 		return nil, err
 	}
 
+	sessionToken := cookie.Value
+
 	var session Session
-	err = db.QueryRow("SELECT id, user_id, expiry FROM sessions WHERE id = ?", cookie.Value).Scan(&session.ID, &session.UserID, &session.Expiry)
+	err = db.QueryRow("SELECT id, user_id, expiry FROM sessions WHERE id = ?", sessionToken).Scan(&session.ID, &session.UserID, &session.Expiry)
 	if err != nil {
 		return nil, err
 	}
 
 	if session.Expiry.Before(time.Now()) {
-		_, _ = db.Exec("DELETE FROM sessions WHERE id = ?", session.ID)
 		return nil, fmt.Errorf("session expired")
 	}
+
+	// Oturum süresini her kontrol ettiğimizde uzatalım
+	newExpiry := time.Now().Add(10 * time.Minute)
+	_, err = db.Exec("UPDATE sessions SET expiry = ? WHERE id = ?", newExpiry, session.ID)
+	if err != nil {
+		return nil, err
+	}
+	session.Expiry = newExpiry
 
 	return &session, nil
 }

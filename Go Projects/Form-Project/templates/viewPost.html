@@ -1,57 +1,233 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Sayfa başlığı -->
     <title>{{.Post.Title}}</title>
+    <!-- Viewpost sayfası için genel viewport ayarı -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sayfa stil dosyası -->
+    <link rel="stylesheet" type="text/css" href="/static/viewpost.css">
+    <!-- jQuery kütüphanesi -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>{{.Post.Title}}</h1>
-    <p>{{.Post.Content}}</p>
-    <small>Posted by {{.Post.Username}} on {{.Post.CreatedAtFormatted}}</small>
+    <!-- Üst Çubuk-->
+    <div id="bigbar">
+        <div id="düzenbar">
+        <div id="bar">
+            <!-- Logo -->
+            <a href="index.html" id="logo" style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 120px; height: 120px;"></a>
 
-    <p>Likes: {{.Post.LikeCount}} Dislikes: {{.Post.DislikeCount}}</p>
+            <!-- Arama kutusu -->
+            <input type="text" id="searchBox"  placeholder="Arama Yapınız" onkeyup="searchLanguages()">
+            
+            <!-- Tema değiştirme düğmesi -->
+            <div id="darkmod">
+                <span class="theme-mode">
+                    <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                    <i id="themeIcon" class="fas fa-sun"></i></a> 
+                </span>
+            </div>
+            <div id="girişbar">
+                <div id="myprofil">
+                    <a href="/myprofil"><img width="80%" height="100%" src="/static/png/pp.png"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Görünmez bar -->
+    <div id="görünmezbar"></div>
+    <!-- Merkez alanı -->
+    <div id="center">
+        <div id="centercont">
+            <!-- Kullanıcı profil bilgileri -->
+            <div id="centerprofilcont">
+                <div id="profil">
+                    <img src="/static/png/pp.png">
+                </div>
+                <div id="name">
+                    {{.Post.Username}}
+                </div>
+            </div>
+            <!-- Gönderi başlığı ve içeriği -->
+            <div id="centersorubaslik">
+                <h3>{{.Post.Title}}</h3>
+                <div class="text-block">
+                    <p>{{.Post.Content}}</p>
+                </div>
+                <!-- Gönderi oluşturulma tarihi --><!-- Beğeni ve beğenmeme sayıları -->
+                <p>{{.Post.CreatedAtFormatted}} Likes: <span id="post-like-count">{{.Post.LikeCount}}</span> Dislikes: <span id="post-dislike-count">{{.Post.DislikeCount}}</span></p>
+                
+                <!-- Beğeni ve beğenmeme düğmeleri -->
+                <div id="like">
+                    <button onclick="vote('{{.Post.ID}}', null, 1)"><img src="/static/png/like.png" alt="Like"></button>
+                </div> 
+                <div id="dislike">
+                    <button onclick="vote('{{.Post.ID}}', null, -1)"><img src="/static/png/dislike.png" alt="Dislike"></button>
+                </div>
+                <!-- Gönderi silme formu -->
+                <form id="deletePostForm" action="/deletePost" method="post">
+                    <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                    <button type="submit">
+                        <img src="/static/png/delete.png" alt="Delete">
+                    </button>
+                </form>
+            </div>
+        </div>
 
-    <form action="/vote" method="post" style="display:inline;">
-        <input type="hidden" name="post_id" value="{{.Post.ID}}">
-        <input type="hidden" name="vote_type" value="1">
-        <button type="submit">Like</button>
-    </form>
-    <form action="/vote" method="post" style="display:inline;">
-        <input type="hidden" name="post_id" value="{{.Post.ID}}">
-        <input type="hidden" name="vote_type" value="-1">
-        <button type="submit">Dislike</button>
-    </form>
-
-    <h2>Comments</h2>
-    <ul>
+        <!-- Yorumlar -->
         {{range .Comments}}
-            <li>
+        <div id="centercont">
+            <div id="centerprofilcont">
+                <div id="profil">
+                    <img src="/static/png/pp.png">
+                </div>
+                <div id="name">
+                    {{.Username}}
+                </div>
+            </div>
+            <div id="centersorubaslik">
+                <!-- Yorum içeriği -->
                 <p>{{.Content}}</p>
+                <!-- Yorumun oluşturulma tarihi -->
                 <small>Commented by {{.Username}} on {{.CreatedAtFormatted}}</small>
-                <p>Likes: {{.LikeCount}} Dislikes: {{.DislikeCount}}</p>
-                <form action="/vote" method="post" style="display:inline;">
+                <!-- Yorumun beğeni ve beğenmeme sayıları -->
+                <p>Likes: <span id="comment-like-count-{{.ID}}">{{.LikeCount}}</span> Dislikes: <span id="comment-dislike-count-{{.ID}}">{{.DislikeCount}}</span></p>
+                <!-- Yorum beğeni ve beğenmeme düğmeleri -->
+                <div id="like">
+                    <button onclick="vote(null, '{{.ID}}', 1)"><img src="/static/png/like.png" alt="Like"></button>
+                </div>
+                <div id="dislike">
+                    <button onclick="vote(null, '{{.ID}}', -1)"><img src="/static/png/dislike.png" alt="Dislike"></button>
+                </div>
+                <!-- Yorum silme formu -->
+                <form id="deletePostForm" action="/deleteComment" method="post">
                     <input type="hidden" name="comment_id" value="{{.ID}}">
-                    <input type="hidden" name="vote_type" value="1">
-                    <button type="submit">Like</button>
+                    <button type="submit">
+                        <img src="/static/png/delete.png" alt="Delete">
+                    </button>
                 </form>
-                <form action="/vote" method="post" style="display:inline;">
-                    <input type="hidden" name="comment_id" value="{{.ID}}">
-                    <input type="hidden" name="vote_type" value="-1">
-                    <button type="submit">Dislike</button>
-                </form>
-            </li>
+            </div>
+        </div>
         {{end}}
-    </ul>
 
-    <h2>Add a Comment</h2>
-    <form action="/createComment" method="post">
-        <input type="hidden" name="post_id" value="{{.Post.ID}}">
-        <textarea name="content" required></textarea>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+        <!-- Yorum yapma alanı -->
+        <div id="centercont">
+            <div id="centerprofilcont">
+                <div id="profil">
+                    <img src="/static/png/pp.png">
+                </div>
+                <div id="name">
+                    isim gelicek profil
+                </div>
+            </div>
+            <div id="centersorubaslik">
+                <h2>Yorum Yap</h2>
+                <form action="/createComment" method="post">
+                    <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                    <textarea name="content" rows="10" cols="50" required maxlength="600"></textarea>
+                    <br>
+                    <button type="submit">Gönder</button> 
+                </form> 
+            </div>
+        </div>
+    </div>
 
-    <nav>
-        <a href="/">Back to Home</a>
-    </nav>
+    <!-- Tema değiştirme scripti -->
+    <script>
+        let tema = localStorage.getItem("theme") ?? "white"
+        changeTema();
+
+        document.querySelector("#themeToggle").addEventListener("click", () => {
+            if (tema === "white") tema = "black";
+            else tema = "white";
+            
+            localStorage.setItem("tema", tema);
+            changeTema();
+        });
+    </script>
+
+    <!-- Sayfa genel script dosyası -->
+    <script src="/static/scripts.js"></script>
+
+    <!-- Tema değiştirme scripti -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const themeToggle = document.getElementById("themeToggle");
+            const themeIcon = document.getElementById("themeIcon");
+            let isLightMode = true;
+
+            themeToggle.addEventListener("click", function() {
+                isLightMode = !isLightMode;
+                document.body.classList.toggle("light-mode", isLightMode);
+                document
+                .body.classList.toggle("night-mode", !isLightMode);
+                themeIcon.classList.toggle("fas fa-sun", isLightMode);
+                themeIcon.classList.toggle("fas fa-moon", !isLightMode);
+            });
+        });
+    </script>
+
+    <!-- AJAX ile oylama ve silme işlemleri için script -->
+    <script>
+        function prepare(xhr, method, url, callback) {
+            xhr.open(method, url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    callback(xhr);
+                }
+            };
+        }
+
+        function vote(postID, commentID, voteType) {
+            var xhr = new XMLHttpRequest();
+            prepare(xhr, "POST", "/vote", function(xhr) {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    } else {
+                        if (postID) {
+                            document.getElementById("post-like-count").innerText = response.like_count;
+                            document.getElementById("post-dislike-count").innerText = response.dislike_count;
+                        } else if (commentID) {
+                            document.getElementById("comment-like-count-" + commentID).innerText = response.like_count;
+                            document.getElementById("comment-dislike-count-" + commentID).innerText = response.dislike_count;
+                        }
+                    }
+                } else if (xhr.status == 401) {
+                    window.location.href = "/login";
+                } else {
+                    alert("Vote failed: " + xhr.responseText);
+                }
+            });
+            var data = "vote_type=" + voteType;
+            if (postID) {
+                data += "&post_id=" + postID;
+            } else if (commentID) {
+                data += "&comment_id=" + commentID;
+            }
+            xhr.send(data);
+        }
+    </script>
+
+    <!-- Tema değiştirme scripti -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const theme = localStorage.getItem('theme');
+            if (theme) {
+                document.getElementById('theme-link').href = theme;
+            }
+        });
+
+        function changeTheme(theme) {
+            document.getElementById('theme-link').href = theme;
+            localStorage.setItem('theme', theme);
+        }
+    </script>
+
 </body>
 </html>

@@ -7,86 +7,245 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-<div id="düzenbar">
-    <div id="bar">
-        <img id="logo" src="/static/png/logo.png">
-        <input type="text" id="searchBox"  placeholder="Arama Yapınız" onkeyup="searchLanguages()">
-        <div id="darkmod">
-        <span class="theme-mode">
-            <span class="theme-mode">
-                <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
-                  <i id="themeIcon" class="fas fa-sun"></i></a> 
-              </span>
-        </span>
-    </div>
-        <div id="girişbar">
-            <nav>
-                {{if .LoggedIn}}
-                    <a href="/logout" class="button">Log Out</a>
-                {{else}}
-                    <a href="/login" class="button">Log In</a>
-                    <a href="/register" class="button">Register</a>
-                {{end}}
-            </nav>
+    <!-- Üst çubuk -->
+    <div id="bigbar">
+        <div id="düzenbar">
+            <div id="bar">
+                <img id="logo" src="/static/png/logo.png">
+                <input type="text" id="searchBox" placeholder="Arama Yapınız" onkeyup="searchLanguages()">
+                <div id="darkmod">
+                    <!-- Tema değiştirme düğmesi -->
+                    <span class="theme-mode">
+                        <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                          <i id="themeIcon" class="fas fa-sun"></i></a> 
+                    </span>
+                </div>
+                <div id="girişbar">
+                    <nav>
+                        <!-- Giriş durumuna göre menü -->
+                        {{if .LoggedIn}}
+                        <div id="myprofil">
+                            <a href="/myprofil"><img width="80%" height="100%" src="/static/png/pp.png"></a>
+                        </div>
+                            <a href="/logout" class="button">Log Out</a>
+                             <!-- Hoş geldiniz popup'ı -->
+                            <script>
+                                const welcomePopup = document.createElement('div');
+                                welcomePopup.innerHTML = `
+                                    <div id="welcomePopup" style="position: fixed; top: 0; left: 0; width: 100%; height: 15%;  display: flex; justify-content: center; align-items: center; z-index: 9999;">
+                                        <div id="popup" style="background-color: white; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); color: black;">
+                                            <h4>Hoş geldiniz!</h4>
+                                            <p>Sitemize giriş yaptığınız için teşekkür ederiz.</p>
+                                        </div>
+                                    </div>
+                                `;
+                                document.body.appendChild(welcomePopup);
+                                
+                                // Tema moduna göre popup rengini ayarla
+                                const popupElement = welcomePopup.querySelector('#popup');
+                                const theme = localStorage.getItem("tema") || "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
+                                if (theme === "dark") {
+                                    popupElement.style.backgroundColor = "rgb(239, 242, 246)";
+                                    popupElement.style.color = "black";
+                                } else {
+                                    popupElement.style.backgroundColor = "rgb(20, 25, 31)";
+                                    popupElement.style.color = "white";
+                                }
+                            
+                                // Pop-up'ı kapatmak için bir zamanlayıcı kullan
+                                setTimeout(() => {
+                                    welcomePopup.remove();  // Pop-up'ı kapat
+                                }, 1500);  
+                            </script>
+
+                        {{else}}
+                            <a href="/login" class="button">Log In</a>
+                            <a href="/register" class="button">Register</a>
+                        {{end}}
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
+    <div id="line"></div>
+    <div id="görünmezbar"></div>
     <div id="left">
-        <div id="centerolustur">
+         <!-- Yeni gönderi oluşturma bağlantısı -->
+        <a id="centerolustur" href="{{if .LoggedIn}}/createPost{{else}}/login{{end}}">
             {{if .LoggedIn}}
-                <a href="/createPost" style="text-decoration: none; color: white;">Create a new post</a>
+                Create a new post
             {{else}}
-                <a href="/login" style="text-decoration: none; color: white;">Create a new post</a>
+                create a new post
             {{end}}
-        </div>
-        
+        </a>
+        <!-- Kategori listesi -->
         <div id="leftkatagoricont">
-            <img src="/static/png/database.png" width="10%" height="60%">Veri Tabanı
-        </div>
-
-        <div id="leftkatagoricont">
-            <img src="/static/png/coding.png" width="10%" height="60%">Programlama
+            <div id="leftkatagoricontfoto"> <img src="/static/png/database.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Veri Tabanı</div>
         </div>
 
         <div id="leftkatagoricont">
-            <img src="/static/png/artificial-intelligence.png" width="10%" height="60%">Yapay Zeka
+            <div id="leftkatagoricontfoto"><img src="/static/png/coding.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Programlama</div>
         </div>
 
         <div id="leftkatagoricont">
-            <img src="/static/png/ghost.png" width="10%" height="60%">Oyun Motorları        
+            <div id="leftkatagoricontfoto"><img src="/static/png/artificial-intelligence.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Yapay Zeka</div>
+        </div>
+
+        <div id="leftkatagoricont">
+            <div id="leftkatagoricontfoto"><img src="/static/png/ghost.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Oyun Motorları</div>
+        </div>
+
+        <div id="leftkatagoricont">
+            <div id="leftkatagoricontfoto"><img src="/static/png/robot.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Robotik Sistemler</div>
+        </div>
+
+        <div id="leftkatagoricont">
+            <div id="leftkatagoricontfoto"><img src="/static/png/structure.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı"> React Native</div>
+        </div>
+
+        <div id="leftkatagoricont">
+            <div id="leftkatagoricontfoto"> <img src="/static/png/cyber-criminal.png" width="90%" height="50%"></div>
+            <div id="leftkatagoricontyazı">Cyber Security</div>
         </div>
     </div>
-
+    <!-- Ana içerik alanı -->
     <div id="center">
+        <div id="filtrecont">
+            <div id="filtre">En Yeni</div>
+            <div id="filtre">Çözülmüş</div>
+            <div id="filtre"></div>
+            <div id="filtre"></div>
+        </div>
+         <!-- Gönderi listesi -->
         <div id="centercont">
             {{range .Posts}}
-            <div id="centerprofilcont">
-            <ul><li><h3>{{.Username}}</h3></li></ul>  
-            </div>
-                <div id="centersorubaslik">
-                    <ul><li> <h3><a href="/viewPost?id={{.ID}}">{{.Title}}</a></h3> </li></ul>
-                    <div id="centerlike">
-                         <ul><li> {{.LikeCount}} Likes {{.DislikeCount}} Dislikes</li></ul>
-                    </div>   
-                    <ul><li> {{.CreatedAtFormatted}} </li></ul>
+            <div class="post">
+                <div id="centerprofilcont">
+                    <div id="profil">
+                        <img width="80%" height="100%" src="/static/png/pp.png">
+                    </div>
+                    <div id="name">
+                       {{.Username}}
+                    </div>
+                
                 </div>
-                <div id="centersorukatagori">
-                    <p>KATAGORİ</p>
-                    <p>{{.Content}}</p>
-                </div>{{end}}
+                    <div id="centersorubaslik">
+                        <ul><li> <h3><a href="/viewPost?id={{.ID}}">{{.Title}}</a></h3> </li></ul>
+                             <ul><li> {{.CreatedAtFormatted}} &nbsp; {{.LikeCount}} Likes {{.DislikeCount}} Dislikes  </li></ul>
+
+                    </div>
+                    <div id="centersorukatagori">
+                        <!-- Gönderi silme formu -->
+                        <form id="deletePostForm" action="/deletePost" method="post">
+                            <input type="hidden" name="post_id" value="{{.ID}}">
+                            <button type="submit">
+                                <img src="/static/png/delete.png" alt="Delete">
+                            </button>
+                        </form>
+                        <p>Kategori</p>
+                    </div>
+            </div>
+            {{end}}
        </div> 
     </div>
-   
-   
+
+    <div id="mesajlasmaAlani">
+        <div id="mesajlasmaBaslik">
+            <h3>Mesajlaşma</h3>
+            <input type="text" id="mesajlardaAra" placeholder="Mesajlarda ara...">
+        </div>
+        <div id="mesajListesi">
+            <div class="mesaj ben">
+                <img src="/static/png/pp.png" alt="Profil Resmi" class="profilResmi">
+                <div class="mesajIcerik">Merhaba, nasılsın?</div>
+                <div class="mesajTarihi">12:30</div>
+            </div>
+            <div class="mesaj diger">
+                <img src="/static/png/pp2.png" alt="Profil Resmi" class="profilResmi">
+                <div class="mesajIcerik">İyiyim, sen nasılsın?</div>
+                <div class="mesajTarihi">12:32</div>
+            </div>
+            </div>
+        <div id="mesajGirisi">
+            <textarea id="mesajMetni"></textarea>
+            <button id="mesajGonder">Gönder</button>
+        </div>
     </div>
+    
+    
+    <!-- Harici script dosyaları -->
     <script src="/static/scripts.js"></script>
+    <!-- Tema değiştirme script'i -->
+    <script>
+        let tema = localStorage.getItem("tema") || "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
+        
+        // Sayfa yüklenirken temayı ayarla
+        document.body.classList.add(tema + "-mode"); // Varsa "light-mode" veya "dark-mode" ekle
+
+        document.querySelector("#themeToggle").addEventListener("click", () => {
+            tema = tema === "light" ? "dark" : "light";
+
+            localStorage.setItem("tema", tema); // Değişen temayı localStorage'a kaydet
+
+            document.body.classList.remove("light-mode", "dark-mode"); // Önceki sınıfları temizle
+            document.body.classList.add(tema + "-mode"); // Yeni tema sınıfını ekle
+        });
+    </script>
+    <!-- Çıkış yapma onayı script'i -->
+    <script>
+        // Çıkış yap butonuna tıklandığında onay popup'ı göster
+        document.querySelector('a[href="/logout"]').addEventListener('click', function(event) {
+            event.preventDefault(); // Bağlantının varsayılan davranışını engelle (sayfayı yenileme)
+            
+            // Onay popup'ını göster
+            if (confirm('Are you sure you want to log out?')) {
+                // Kullanıcı evet derse, logout sayfasına git
+                window.location.href = this.getAttribute('href');
+            } else {
+                // Kullanıcı hayır derse, popup'ı kapat
+                // İşlemi durdurmak için gerekli değil, sadece bir geri bildirim olarak eklenir
+            }
+        });
+    </script>
+    <script>
+        const mesajListesi = document.getElementById("mesajListesi");
+
+function mesajEkle(mesaj, gonderen) {
+    const mesajDiv = document.createElement("div");
+    mesajDiv.classList.add("mesaj", gonderen === "ben" ? "ben" : "diger");
+
+    const profilResmi = document.createElement("img");
+    profilResmi.src = gonderen === "ben" ? "/static/png/pp.png" : "/static/png/pp2.png";
+    profilResmi.alt = "Profil Resmi";
+    profilResmi.classList.add("profilResmi");
+
+    const mesajIcerik = document.createElement("div");
+    mesajIcerik.classList.add("mesajIcerik");
+    mesajIcerik.textContent = mesaj;
+
+    const mesajTarihi = document.createElement("div");
+    mesajTarihi.classList.add("mesajTarihi");
+    mesajTarihi.textContent = "şimdi"; // Örnek olarak "şimdi" yazıldı
+
+    mesajDiv.appendChild(profilResmi);
+    mesajDiv.appendChild(mesajIcerik);
+    mesajDiv.appendChild(mesajTarihi);
+
+    mesajListesi.appendChild(mesajDiv);
+    mesajListesi.scrollTop = mesajListesi.scrollHeight; // En alta scroll yap
+}
+// Örnek mesajlar (rastgele ekleyebilirsiniz)
+mesajEkle("Merhaba, nasılsın? aşko", "ben");
+mesajEkle("İyiyim, sen nasılsın? bitanem", "diger");
+mesajEkle("Ben de iyiyim, teşekkürler. 💅🏻💅🏻💅🏻", "ben");
+
+    </script>
+    
 </body>
 </html>
-
-
-
-
-
-
-

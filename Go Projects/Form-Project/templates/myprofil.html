@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS Stilleri -->
+    <style>
+        /* Genel vücut stillemesi */
+        body {
+            font-family: sans-serif; /* Yazı tipi */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            background-color: #f4f4f4; /* Arka plan rengi */
+            margin: 0; /* Kenar boşluğu */
+        }
+
+        /* Gece modu için stillemeler */
+        body.night-mode {
+            background-color: rgb(20, 25, 31); /* Gece modu arka plan rengi */
+            color: white; /* Gece modu metin rengi */
+        }
+
+        /* Profil container */
+        .profile-container {
+            background-color: #fff; /* Profil container arka plan rengi */
+            border-radius: 8px; /* Köşe yuvarlaklığı */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Gölge */
+            height: 40%; /* Yükseklik */
+            width: 50%; /* Genişlik */
+            text-align: center; /* Metin hizalama */
+            margin-bottom: 10px; /* Alt boşluk */
+        }
+
+        /* Profil resmi */
+        .profile-picture {
+            width: 150px; /* Genişlik */
+            height: 150px; /* Yükseklik */
+            border-radius: 50%; /* Kenar yuvarlaklığı */
+            object-fit: cover; /* Resmi container'a sığdırma */
+            margin-bottom: 20px; /* Alt boşluk */
+        }
+
+        /* Profil bilgileri */
+        .profile-info {
+            margin-bottom: 20px; /* Alt boşluk */
+        }
+
+        /* Profil bilgisi paragrafları */
+        .profile-info p {
+            margin: 5px 0; /* Paragraf kenar boşlukları */
+        }
+
+        /* Profil istatistikleri */
+        .profile-stats {
+            display: flex;
+            justify-content: space-around; /* İçeriği yatayda dağıtma */
+            border-top: 1px solid #ddd; /* Üst kenarlık */
+            padding-top: 20px; /* Üst boşluk */
+        }
+
+        /* Profil istatistiği içerikleri */
+        .profile-stats div {
+            text-align: center; /* Metin hizalama */
+        }
+
+        /* Bilgi çubuğu stillemesi */
+        #bilgibar {
+            height: 10%; /* Yükseklik */
+            width: 50%; /* Genişlik */
+            background-color: #641515; /* Arka plan rengi */
+        }
+
+        /* Bilgi çubuğu içerikleri stillemesi */
+        #bilgibarcont {
+            height: 100%; /* Yükseklik */
+            width: 20%; /* Genişlik */
+            background-color: #16d6da; /* Arka plan rengi */
+            color: black; /* Metin rengi */
+            text-align: center; /* Metin hizalama */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Yazı tipi */
+            float: left; /* Sola yaslama */
+            margin-left: 8%; /* Sol boşluk */
+            margin-right: 5%; /* Sağ boşluk */
+        }
+    </style>
+</head>
+<body>
+    <!-- Profil container -->
+    <div class="profile-container">
+        <!-- Profil resmi -->
+        <img src="/static/png/pp.png" alt="Liyan Profil Fotoğrafı" class="profile-picture">
+        <!-- Profil adı -->
+        <h2>Liyan</h2>
+        <!-- Profil bilgileri -->
+        <div class="profile-info">
+            <p><strong>Decapat:</strong> 39</p>
+            <p><strong>Katılım:</strong> 11 Nisan 2022</p>
+            <p><strong>Son Etkinlik:</strong> Az Önce (Üye profilini görüntülüyor Liyan)</p>
+        </div>
+        <!-- Profil istatistikleri -->
+        <div class="profile-stats">
+            <div>
+                <p><strong>Mesajlar</strong></p>
+                <p>10</p>
+            </div>
+            <div>
+                <p><strong>Beğeniler</strong></p>
+                <p>2</p>
+            </div>
+            <div>
+                <p><strong>Puanlar</strong></p>
+                <p>768</p>
+            </div>
+        </div>
+        <!-- Tema değiştirme düğmesi -->
+        <button id="themeToggle">Toggle Theme</button>
+    </div>
+    <!-- Bilgi çubuğu -->
+    <div id="bilgibar">
+        <!-- Bilgi çubuğu içeriği -->
+        <div id="bilgibarcont">Yaptığı Yorumlar</div>
+        <div id="bilgibarcont">Çözüm bulduğu postlar</div>
+        <div id="bilgibarcont">Takip ettiği konular </div>
+    </div>
+    <!-- JS betikleri -->
+    <script src="/static/scripts.js"></script>
+    <!-- Tema değiştirme betiği -->
+    <script>
+        // Sayfa yüklendiğinde temayı ayarla
+        window.onload = function() {
+            let tema = localStorage.getItem("tema") || "light"; // Varsayılan tema
+            document.body.classList.add(tema + "-mode"); // Varsa "light-mode" veya "dark-mode" ekle
+        };
+
+        // Tema değiştirme düğmesini dinle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'night-mode' : 'light-mode';
+            changeTheme(currentTheme);
+        });
+
+        // Giriş sayfasına yönlendirme fonksiyonu
+        function closeLogin() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
