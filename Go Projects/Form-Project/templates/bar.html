@@ -1,0 +1,89 @@
+<link rel="stylesheet" type="text/css" href="/static/css/bar.css">
+<!-- header.html -->
+<div class="navbar">
+    <!-- Üst bar içeriği buraya gelecek -->
+    <div id="bigbar">
+        <div id="düzenbar">
+            <div id="bar">
+                <!-- Logo -->
+                <a href="index.html" id="logo"
+                    style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 120px; height: 120px;"></a>
+
+                <input type="text" id="searchBox" placeholder="Arama Yapınız" onkeyup="searchPosts()">
+                <div id="darkmod">
+                    <!-- Tema değiştirme düğmesi -->
+                    <span class="theme-mode">
+                        <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                        </a>
+                    </span>
+                </div>
+                <div id="girişbar">
+                    <nav>
+                        <!-- Giriş durumuna göre menü -->
+                        {{if .LoggedIn}}
+                        <div id="myprofil">
+                            <a href="/myprofil"><img width="80%" height="100%" src="/static/png/pp.png"></a>
+                        </div>
+                        <a href="/logout" id="logoutButton" class="button">Log Out</a>
+                        <!-- Hoş geldiniz popup'ı -->
+                        <script>
+                            // Eğer popup daha önce gösterilmemişse göster
+                            if (!localStorage.getItem('popupGosterildi')) {
+                                const welcomePopup = document.createElement('div');
+                                welcomePopup.innerHTML = `
+                                        <div id="welcomePopup" style="position: fixed; top: 0; left: 0; width: 100%; height: 15%;  display: flex; justify-content: center; align-items: center; z-index: 9999;">
+                                            <div id="popup" style="background-color: white; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); color: black;">
+                                                <h4>Hoş geldiniz!</h4>
+                                                <p>Sitemize giriş yaptığınız için teşekkür ederiz.</p>
+                                            </div>
+                                        </div>
+                                    `;
+                                document.body.appendChild(welcomePopup);
+
+                                // Tema moduna göre popup rengini ayarla
+                                const popupElement = welcomePopup.querySelector('#popup');
+                                const theme = localStorage.getItem("tema") ||
+                                    "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
+                                if (theme === "dark") {
+                                    popupElement.style.backgroundColor = "rgb(239, 242, 246)";
+                                    popupElement.style.color = "black";
+                                } else {
+                                    popupElement.style.backgroundColor = "rgb(20, 25, 31)";
+                                    popupElement.style.color = "white";
+                                }
+
+                                // Pop-up'ı kapatmak için bir zamanlayıcı kullan
+                                setTimeout(() => {
+                                    welcomePopup.remove(); // Pop-up'ı kapat
+                                }, 1500);
+
+                                // Popup'ın gösterildiğini işaretle
+                                localStorage.setItem('popupGosterildi', 'true');
+                            }
+
+                            // Çıkış yap butonuna tıklandığında onay popup'ı göster ve localStorage'ı temizle
+                            document.querySelector('#logoutButton').addEventListener('click', function (event) {
+                                event
+                                    .preventDefault(); // Bağlantının varsayılan davranışını engelle (sayfayı yenileme)
+
+                                // Onay popup'ını göster
+                                if (confirm('Are you sure you want to log out?')) {
+                                    // localStorage'ı temizle
+                                    localStorage.removeItem('popupGosterildi');
+
+                                    // Kullanıcı evet derse, logout sayfasına git
+                                    window.location.href = this.getAttribute('href');
+                                }
+                            });
+                        </script>
+
+                        {{else}}
+                        <a href="/login" class="button">Log In</a>
+                        <a href="/register" class="button">Register</a>
+                        {{end}}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

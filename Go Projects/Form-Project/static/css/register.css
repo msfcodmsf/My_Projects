@@ -1,0 +1,110 @@
+/* Genel sayfa stili */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Gece modu stil ayarları */
+body.night-mode {
+    background-color: rgb(20, 25, 31);
+    color: white;
+}
+
+body.night-mode .register-container {
+    background-color: rgb(29, 38, 49);
+    color: white;
+}
+
+a {
+    margin-left: 30%;
+    text-decoration: none;
+}
+
+/* Kayıt konteynırı stil ayarları */
+.register-container {
+    position: relative;
+    background-color: #fff;
+    padding: 5%;
+    width: 25%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Kapatma düğmesi stil ayarları */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Başlık stil ayarları */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Etiket stil ayarları */
+label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Giriş alanı stil ayarları */
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+    display: block;
+    width: 80%;
+    margin: 0 auto 15px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Diğer stil ayarları */
+input[type="text"],
+input[type="password"],
+h6 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Kayıt düğmesi stil ayarları */
+button {
+    display: block;
+    width: 86%;
+    margin: 0 auto;
+    margin-top: 5%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Kayıt düğmesi üzerine gelindiğinde stil ayarları */
+button:hover {
+    background-color: #0056b3;
+}

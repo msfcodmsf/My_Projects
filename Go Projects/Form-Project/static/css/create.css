@@ -1,0 +1,248 @@
+        /* Genel sayfa stili */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Değişiklik: Dikey hizalama tam ortaya */
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Gece modu için stillemeler */
+        body.night-mode {
+            background-color: rgb(20, 25, 31);
+            /* Gece modu arka plan rengi */
+            color: white;
+            /* Gece modu metin rengi */
+        }
+
+        /* Gece modunda giriş container'ı stillemesi */
+        body.night-mode .create-post-container {
+            background-color: rgb(29, 38, 49);
+            /* Gece modunda container arka plan rengi */
+            color: white;
+            /* Gece modunda metin rengi */
+        }
+
+        /* Post oluşturma konteynırı stili */
+        .create-post-container {
+            position: relative;
+            background-color: #fff;
+            padding: 20px;
+            width: 60%;
+            /* Değişiklik: Genişlik artırıldı */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            /* Değişiklik: Ortaya hizalama */
+
+        }
+
+        /* Kapatma düğmesi stili */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Başlık stili */
+        h1 {
+            text-align: left;
+            /* Değişiklik: Başlık sola hizalandı */
+            margin-bottom: 20px;
+        }
+
+        /* Etiket stili */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+            /* Değişiklik: Etiketler sola hizalandı */
+        }
+
+        /* Giriş alanı stili */
+        input[type="text"],
+        textarea,
+        input[list] {
+            display: block;
+            width: 50%;
+            /* Değişiklik: Giriş alanları genişletildi */
+            margin-bottom: 15px;
+            /* Değişiklik: Boşluk eklendi */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Text alanı stili */
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        /* Gönder düğmesi stili */
+        button {
+            display: block;
+            width: 33%;
+            margin: 0 auto;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-sizing: border-box;
+            float: left;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Gönder düğmesi üzerine gelindiğinde stili */
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #buttons {
+            width: 100%;
+            height: 20%;
+            background-color: #dc3545;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Temizle, Create Post ve Toggle Theme butonlarını yan yana getir */
+        .form-buttons button {
+            display: inline-block;
+            width: calc(100% / 3 - 10px);
+            /* Butonların genişliğini eşit olarak ayarla ve aralarına boşluk bırak */
+            margin: 0 5px;
+            /* Butonlar arasında biraz boşluk bırak */
+        }
+
+        /* Temizle butonunu kırmızı yap */
+        button#clearButton {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        #searchkategori {
+            width: 50%;
+            height: 100px;
+            float: right;
+            margin-top: -70px;
+        }
+
+        #searchkategoribox {
+            margin-left: 15%;
+            margin-right: 10px;
+            /* Space between the boxes */
+        }
+
+        #searchkategoribilgi {
+            margin-left: 30px;
+            /* Space between the boxes */
+        }
+
+        .form-right {
+            float: left;
+        }
+
+        .search-container {
+            margin-bottom: 10px;
+            /* Space below the search box */
+        }
+
+        #searchBox {
+            width: 85%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .dropdown-container {
+            position: absolute;
+            width: 13%;
+            /* Genişlik artırıldı */
+            max-height: 300px;
+            /* Maksimum yükseklik sınırı eklendi */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            /* Border radius artırıldı */
+            padding: 15px;
+            /* Padding artırıldı */
+            background-color: #fafafa;
+            /* Arka plan rengi değiştirildi */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Box-shadow artırıldı */
+            z-index: 1;
+            display: none;
+            /* Başlangıçta gizli */
+            font-family: 'Arial', sans-serif;
+        }
+
+        .dropdown-item {
+            background-color: #f0f0f0;
+            /* Light gray background */
+            color: black;
+            /* Black text color */
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            /* Smaller font size */
+            margin-bottom: 5px;
+            /* Aralarına boşluk eklendi */
+        }
+
+        .dropdown-item:hover {
+            background-color: #e0e0e0;
+            /* Lighter gray background on hover */
+        }
+
+        #selectedLanguagesContainer {
+            margin-top: 10px;
+            /* Space above the selected languages */
+        }
+
+        /* Form düğmelerinin konteyneri */
+        .form-buttons {
+            display: flex;
+            /* Flexbox kullanarak hizalama */
+            justify-content: center;
+            /* Düğmeleri yatayda ortala */
+            width: 50%;
+            /* Konteyneri tüm genişliğe yay */
+        }
+
+        /* Her bir düğme stili */
+        .form-buttons button {
+            display: inline-block;
+            width: calc(100% / 3 - 10px);
+            margin: 10px 5px;
+            /* Üst/alt ve yan boşluk eklendi */
+        }
+
+        @font-face {
+            font-family: 'BenimFontim';
+            src: url('fontlar/BenimFontim.woff2') format('woff2'),
+                url('fontlar/BenimFontim.woff') format('woff');
+        }

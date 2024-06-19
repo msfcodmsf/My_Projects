@@ -1,0 +1,149 @@
+ /* Genel vücut stillemesi */
+ body {
+     font-family: sans-serif;
+     /* Yazı tipi */
+     display: flex;
+     flex-direction: column;
+     margin: 0%;
+     align-items: center;
+     height: 100%;
+     width: 100%;
+     background-color: #f4f4f4;
+     /* Arka plan rengi */
+     /* Kenar boşluğu */
+ }
+
+ /* Gece modu için stillemeler */
+ body.night-mode {
+     background-color: rgb(20, 25, 31);
+     /* Gece modu arka plan rengi */
+     color: white;
+     /* Gece modu metin rengi */
+ }
+
+ body.night-mode #profileContainer {
+     background-color: rgb(29, 38, 49);
+     /* Gece modu arka plan rengi */
+     color: white;
+     /* Gece modu metin rengi */
+ }
+
+ /* Profil Container */
+ #profileContainer {
+     background-color: #fff;
+     border-radius: 8px;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     height: 40%;
+     width: 50%;
+     text-align: center;
+     margin-top: 3%;
+ }
+
+ /* Geri Dön Butonu */
+ #backButton {
+     position: absolute;
+     top: 10px;
+     left: 10px;
+     padding: 5px 10px;
+     background-color: #007BFF;
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+
+ #backButton:hover {
+     background-color: #0056b3;
+ }
+
+ /* Profil Resmi */
+ #profilePicture {
+     width: 150px;
+     height: 150px;
+     border-radius: 50%;
+     object-fit: cover;
+     margin-bottom: 20px;
+ }
+
+ /* Profil Bilgileri */
+ #profileInfo {
+     margin-bottom: 20px;
+ }
+
+ /* Profil Bilgisi Paragrafları */
+ #profileInfo p {
+     margin: 5px 0;
+ }
+
+ /* Profil İstatistikleri */
+ #profileStats {
+     display: flex;
+     justify-content: space-around;
+     border-top: 1px solid #ddd;
+     padding-top: 20px;
+ }
+
+ /* Profil İstatistiği İçerikleri */
+ #profileStats div {
+     text-align: center;
+ }
+
+
+ /* Bilgi çubuğu stillemesi */
+ #bilgibar {
+     height: 10%;
+     /* Yükseklik */
+     width: 50%;
+     /* Genişlik */
+     background-color: #641515;
+     /* Arka plan rengi */
+ }
+
+ /* Bilgi çubuğu içerikleri stillemesi */
+ #bilgibarcont {
+     height: 100%;
+     /* Yükseklik */
+     width: 20%;
+     /* Genişlik */
+     background-color: #16d6da;
+     /* Arka plan rengi */
+     color: black;
+     /* Metin rengi */
+     text-align: center;
+     /* Metin hizalama */
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     /* Yazı tipi */
+     float: left;
+     /* Sola yaslama */
+     margin-left: 8%;
+     /* Sol boşluk */
+     margin-right: 5%;
+     /* Sağ boşluk */
+ }
+
+ /* Geri dön butonu */
+ .back-button {
+     position: absolute;
+     /* Mutlak konumlandırma */
+     top: 10px;
+     /* Üstten boşluk */
+     left: 10px;
+     /* Soldan boşluk */
+     padding: 5px 10px;
+     /* İç boşluk */
+     background-color: #007BFF;
+     /* Arka plan rengi */
+     color: #fff;
+     /* Metin rengi */
+     border: none;
+     /* Kenarlık */
+     border-radius: 5px;
+     /* Köşe yuvarlaklığı */
+     cursor: pointer;
+     /* İmleç */
+ }
+
+ .back-button:hover {
+     background-color: #0056b3;
+     /* Hover durumu arka plan rengi */
+ }

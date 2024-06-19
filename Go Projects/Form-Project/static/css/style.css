@@ -1,5 +1,6 @@
 /* General styles */
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -12,122 +13,57 @@ html, body {
 :root {
     --background-color: #ffffff;
     --text-color: #000000;
-    --button-hover-color: rgb(22, 59, 97);
+    --button-hover-color: rgb(0, 86, 179);
 }
 
 /* Genel olarak kaydırma çubuğuna stillendirme uygulama */
 ::-webkit-scrollbar {
-    width: 12px; /* Kaydırma çubuğu genişliği */
+    width: 12px;
+    /* Kaydırma çubuğu genişliği */
 }
 
 /* Kaydırma çubuğunun track kısmının rengi */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
 }
 
 /* Kaydırma çubuğunun thumb kısmını yuvarlak yapma */
 ::-webkit-scrollbar-thumb {
-    background: #007bff; /* Thumb rengi */
-    border-radius: 6px; /* Yuvarlak köşeler */
+    background: #007bff;
+    /* Thumb rengi */
+    border-radius: 6px;
+    /* Yuvarlak köşeler */
 }
 
 /* Kaydırma çubuğunun thumb kısmının üzerine gelindiğindeki rengini değiştirme */
 ::-webkit-scrollbar-thumb:hover {
-    background: #0056b3; /* Thumb üzerine gelindiğindeki renk */
+    background: #0056b3;
+    /* Thumb üzerine gelindiğindeki renk */
 }
 
 
-/**BAR**/
-#logo {
-    float: left;
-    margin-right: 50px;
-}
-#bigbar{
-    width: 99.1%;
-    height: 6%;
-    display: flex;
-    position: fixed;
-    z-index: 1;
-    background-color: #163b61;
-}
-#düzenbar {
-    width: 57%;
-    height: 5%;
-    display: flex;
-    margin-left: 21%;
-    position: fixed;
-    z-index: 1;
-}
-#bar {
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-#görünmezbar {
-    width: 100%;
-    height: 3%;
-    display: flex;
-}
-#girişbar {
-    width: 25%;
-    height: 100%;
-    margin-left: 27%;
-    padding-top: 1px;
-    margin-top: 1%;
-}
-#myprofil {
-    width: 50px; /* Profil resminin genişliği */
-    height: 50px; /* Profil resminin yüksekliği */
-    border-radius: 50%; /* Resmi yuvarlak yapar */
-    overflow: hidden; /* Resmin sınırlarını yuvarlak yapar */
-    cursor: pointer; /* İmlecin üstüne geldiğinde el işareti görüntüler, tıklanabilir hale getirir */
-    float: left; /* Profil resmini sola kaydırır */
-    margin-right: 10px; /* Profil resmi ile "Log Out" bağlantısı arasında boşluk bırakır */
-    margin-top: -5px;
-}
-#myprofil img {
-    width: 100%; /* Resmi konteynerin genişliğine uygun olarak ayarlar */
-    height: auto; /* Orantılı olarak yüksekliği ayarlar */
-}
-#darkmod {
-    width: 3%;
-    height: 70%;
-    margin-left: 5%;
-    margin-top: 1%;
-    padding-top: 7px;
-    padding-left: 5px;
-}
-#searchBox {
-    width: 40%;
-    height: 65%;
-    margin-top: 1%;
-}
-
-/* Buttons */
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    text-decoration: none;
-    background-color: rgb(239, 242, 246);
-    color: black;
-    border-radius: 5px;
-    transition: background-color 1.2s;
-}
-.button:hover {
-    background-color: var(--button-hover-color);
-}
 #clearButton {
-    background-color: #dc3545; /* Kırmızı arka plan */
-    color: rgb(255, 255, 255); /* Beyaz metin */
-    border: none; /* Kenarlık yok */
-    padding: 8px 15px; /* İç boşluk */
-    border-radius: 5px; /* Yuvarlak köşeler */
-    cursor: pointer; /* Tıklanabilir olduğunu gösteren imleç */
-    transition: background-color 0.2s; /* Arka plan rengi geçiş efekti */
+    background-color: #dc3545;
+    /* Kırmızı arka plan */
+    color: rgb(255, 255, 255);
+    /* Beyaz metin */
+    border: none;
+    /* Kenarlık yok */
+    padding: 8px 15px;
+    /* İç boşluk */
+    border-radius: 5px;
+    /* Yuvarlak köşeler */
+    cursor: pointer;
+    /* Tıklanabilir olduğunu gösteren imleç */
+    transition: background-color 0.2s;
+    /* Arka plan rengi geçiş efekti */
 }
+
 #clearButton:hover {
-    background-color: #c82333; /* Hover efekti için daha koyu kırmızı */
+    background-color: #c82333;
+    /* Hover efekti için daha koyu kırmızı */
 }
+
 /* Close Button */
 .close {
     color: white;
@@ -148,6 +84,7 @@ html, body {
     margin-top: 2%;
     position: fixed;
 }
+
 #leftkatagoricont {
     display: flex;
     align-items: center;
@@ -161,17 +98,20 @@ html, body {
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     font-family: 'Arial', sans-serif;
 }
+
 #leftkatagoricontyazı {
     width: 90%;
     padding-left: 10px;
     color: var(--text-color);
 }
+
 #leftkatagoricontfoto {
     height: 90%;
     width: 20%;
-    padding-top: 10%;
+    padding-top: 4%;
     color: var(--text-color);
 }
+
 #leftkatagoricont:hover {
     background-color: #f0f0f0;
     transform: scale(1.05);
@@ -183,6 +123,7 @@ html, body {
     width: 100%;
     height: 5%;
 }
+
 #filtre {
     width: 10%;
     height: 70%;
@@ -194,6 +135,7 @@ html, body {
     border-radius: 5px;
     transition: background-color 1.2s;
 }
+
 #filtre:hover {
     background-color: var(--button-hover-color);
 }
@@ -201,7 +143,8 @@ html, body {
 
 /**CENTER CONTAINER**/
 .post {
-    position: relative; /* Gönderi kapsayıcısını konumlandırma için göreceli yap */
+    position: relative;
+    /* Gönderi kapsayıcısını konumlandırma için göreceli yap */
     display: flex;
     align-items: center;
     background-color: rgb(239, 242, 246);
@@ -209,16 +152,19 @@ html, body {
     border-radius: 10px;
     transition: all 0.3s ease;
 }
+
 .post:hover {
     background-color: #f0f0f0;
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 #name {
     width: 100%;
     height: 15%;
     text-align: center;
 }
+
 #center {
     width: 45%;
     height: 100%;
@@ -227,12 +173,14 @@ html, body {
     margin-right: 23%;
     position: relative;
 }
+
 #centercont {
     width: 100%;
     height: 10%;
     margin-top: 2%;
     border-radius: 10px 0 0 10px;
 }
+
 #centerolustur {
     display: block;
     width: 80%;
@@ -241,12 +189,16 @@ html, body {
     border-radius: 5px;
     text-align: center;
     padding-top: 15px;
-    text-decoration: none; /* varsayılan link altı çizgisi kaldırıldı */
-    color: white; /* varsayılan metin rengi ayarlandı */
+    text-decoration: none;
+    /* varsayılan link altı çizgisi kaldırıldı */
+    color: white;
+    /* varsayılan metin rengi ayarlandı */
 }
+
 #centerolustur:hover {
     background-color: #163b61;
 }
+
 #centerprofilcont {
     width: 25%;
     height: 100%;
@@ -255,12 +207,14 @@ html, body {
     border-radius: 10px 0 0 10px;
     text-align: center;
 }
+
 #profil {
     border-radius: 100%;
     width: 40%;
     height: 50%;
     margin-left: 30%;
 }
+
 #centersorubaslik {
     margin-bottom: 3%;
     width: 60%;
@@ -269,30 +223,61 @@ html, body {
     background-color: rgb(239, 242, 246);
     overflow: hidden;
 }
+
 #centerlike {
     width: 30%;
     height: 20%;
     margin-left: 60%;
 }
+
 #centersorukatagori {
-    width: 15%;
+    width: 17%;
     height: 100%;
     float: left;
     background-color: rgb(239, 242, 246);
     border-radius: 0 10px 10px 0;
     text-align: center;
-    padding-top: 10%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    display: flex;
+    /* Flexbox kullan */
+    flex-direction: column;
+    /* Öğeleri dikey sırala */
+    /* Öğeleri dikeyde aralıklı yerleştir */
+
+    /* Öğeleri yatayda sola hizala */
+    text-align: left;
+    /* Tüm içeriği sola yasla */
+    padding-left: 10px;
+    /* İç boşluk ekle */
 }
+
+#centersorukatagori p {
+    text-align: left;
+    /* Yazıyı sağa yasla */
+
+    margin-bottom: 0;
+
+    /* Paragraf alt boşluğunu kaldır */
+}
+
+
 #deletePostForm {
     position: absolute;
-    top: 10px; /* Gönderinin üst kısmından 10 piksel aşağıda */
-    right: 10px; /* Gönderinin sağ kısmından 10 piksel içeride */
+    top: 0;
+    /* Üst kenara tamamen yasla */
+    right: 0;
+    /* Sağ kenara tamamen yasla */
+    transform: translate(5%, -35%);
+    /* Butonu kendi boyutunun yarısı kadar sağa ve yukarı kaydır */
 }
+
 #deletePostForm button {
     background: none;
     border: none;
     cursor: pointer;
 }
+
 #deletePostForm img {
     width: 20px;
     height: 20px;
@@ -304,15 +289,14 @@ html, body {
     margin-left: auto;
     display: block;
 }
+
 .theme-mode:hover,
 .theme-mode:focus,
 .theme-mode:active {
     transform: rotate(1deg);
     transition-duration: 1.2s;
 }
-.theme-mode a {
-    text-decoration: none;
-}
+
 .theme-mode i {
     transition: all 0.2s ease;
 }
@@ -323,15 +307,19 @@ ul {
     padding: 0;
     overflow: hidden;
 }
+
 li {
     float: left;
 }
+
 li a {
     color: black;
     text-align: center;
     text-decoration: none;
 }
-li a:hover, .menu:hover {
+
+li a:hover,
+.menu:hover {
     color: rgb(22, 59, 97);
 }
 
@@ -341,23 +329,30 @@ body.night-mode {
     --background-color: rgb(20, 25, 31);
     --text-color: #ffffff;
 }
+
 body.night-mode .button {
     background-color: rgb(29, 38, 49);
     color: white;
 }
+
 body.night-mode .button:hover {
     background-color: var(--button-hover-color);
 }
-body.night-mode li a:hover, .menu:hover {
+
+body.night-mode li a:hover,
+.menu:hover {
     color: rgb(22, 59, 97);
 }
+
 body.night-mode #leftkatagoricont {
     background-color: rgb(29, 38, 49);
 }
+
 body.night-mode .button {
     background-color: rgb(29, 38, 49);
     color: white;
 }
+
 body.night-mode #filtre {
     background-color: rgb(29, 38, 49);
 }
@@ -365,14 +360,17 @@ body.night-mode #filtre {
 body.night-mode #filtre:hover {
     background-color: var(--button-hover-color);
 }
+
 body.night-mode .post {
     background-color: rgb(29, 38, 49);
 }
+
 body.night-mode #searchBox {
     background-color: rgb(20, 25, 31);
     color: white;
     border: 1px groove white;
 }
+
 body.night-mode #centersorubaslik,
 body.night-mode #centerprofilcont,
 body.night-mode #centerlike,
@@ -380,6 +378,7 @@ body.night-mode #mesajlasmaAlani,
 body.night-mode #mesajGonder,
 body.night-mode #mesajMetni,
 body.night-mode #mesajGirisi,
+body.night-mode #spotifybaslik,
 body.night-mode #filtre,
 body.night-mode #mesajlasmaBaslik,
 body.night-mode #mesajlardaAra,
@@ -393,9 +392,21 @@ body.night-mode li a {
     background-color: rgb(29, 38, 49);
     color: white;
 }
+
+body.night-mode #mesajlasmaBaslik {
+    background-color: rgb(47, 65, 87);
+    color: white;
+}
+
+body.night-mode #mesajGirisi {
+    background-color: rgb(47, 65, 87);
+    color: white;
+}
+
 body.night-mode #centerlike {
     height: 38%;
 }
+
 body.night-mode #popup {
     background-color: rgb(29, 38, 49);
     color: white;
@@ -407,6 +418,7 @@ body.light-mode #searchBox {
     color: black;
     border: 1px groove black;
 }
+
 body.light-mode #popup {
     background-color: rgb(239, 242, 246);
     color: black;
@@ -416,9 +428,11 @@ body.light-mode #popup {
 #themeToggle i {
     transition: all 0.2s ease;
 }
+
 #themeIcon.fas.fa-sun {
     color: orange;
 }
+
 #themeIcon.fas.fa-moon {
     color: rgb(209, 209, 209);
 }
@@ -445,12 +459,16 @@ body.light-mode #popup {
 form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Form elemanlarını dikeyde hizalama */
-    padding-top: 20px; /* Form üstündeki boşluk */
-} 
+    align-items: center;
+    /* Form elemanlarını dikeyde hizalama */
+    padding-top: 20px;
+    /* Form üstündeki boşluk */
+}
+
 label {
     font-size: 18px;
 }
+
 button {
     padding: 10px;
     font-size: 18px;
@@ -460,36 +478,44 @@ button {
     color: black;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #0056b3;
     transition-duration: 1.2s;
 }
+
 textarea {
     resize: none;
 }
 
 /* Mesajlaşma Alanı */
 #mesajlasmaAlani {
-    width: 400px; /* Genişlik */
-    height: 500px; /* Yükseklik */
+    width: 400px;
+    /* Genişlik */
+    height: 500px;
+    /* Yükseklik */
     position: fixed;
     top: 50%;
     right: 1%;
     background-color: white;
-    border: 1px solid #e1e2e3; /* Çerçeve rengi */
+    border: 1px solid #e1e2e3;
+    /* Çerçeve rengi */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
 }
 
 /* Mesajlaşma Başlığı */
 #mesajlasmaBaslik {
-    background-color: #f5f6f7; /* Açık gri arkaplan */
+    background-color: #f5f6f7;
+    /* Açık gri arkaplan */
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
-    display: flex; /* Başlık ve arama kutusunu yan yana yerleştir */
+    display: flex;
+    /* Başlık ve arama kutusunu yan yana yerleştir */
     align-items: center;
-    justify-content: space-between; /* Elemanlar arasına boşluk ekle */
+    justify-content: space-between;
+    /* Elemanlar arasına boşluk ekle */
 }
 
 #mesajlasmaBaslik h3 {
@@ -514,7 +540,8 @@ textarea {
 .mesaj {
     margin-bottom: 10px;
     display: flex;
-    align-items: flex-start; /* Mesaj içeriğini yukarıya hizala */
+    align-items: flex-start;
+    /* Mesaj içeriğini yukarıya hizala */
 }
 
 /* Profil Resmi */
@@ -532,22 +559,29 @@ textarea {
     padding: 8px;
     border-radius: 10px;
     font-size: 14px;
-    max-width: 70%; /* Mesajın çok uzun olmaması için */
-    word-wrap: break-word; /* Kelimelerin satır sonunda kesilmesini sağlar */
+    max-width: 70%;
+    /* Mesajın çok uzun olmaması için */
+    word-wrap: break-word;
+    /* Kelimelerin satır sonunda kesilmesini sağlar */
 }
+
 /* Gönderilen Mesaj */
 .mesaj.ben .mesajIcerik {
     background-color: #14c15f;
     color: black;
-    align-self: flex-end; /* Gönderilen mesajları sağa yasla */
+    align-self: flex-end;
+    /* Gönderilen mesajları sağa yasla */
 }
+
 /* Mesaj Tarihi */
 .mesaj .mesajTarihi {
     font-size: 12px;
     color: black;
     margin-top: 5px;
-    align-self: flex-end; /* Tarihi mesaj içeriğiyle aynı hizaya getir */
+    align-self: flex-end;
+    /* Tarihi mesaj içeriğiyle aynı hizaya getir */
 }
+
 /* Mesaj Girişi */
 #mesajGirisi {
     display: flex;
@@ -567,7 +601,8 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 14px;
-    height: 36px; /* Metin alanı yüksekliği */
+    height: 36px;
+    /* Metin alanı yüksekliği */
 }
 
 #mesajGonder {
@@ -583,20 +618,66 @@ textarea {
 /* Diğer ve Odaklı Sekmeleri */
 #mesajlasmaAlani #filtrecont {
     display: flex;
-    justify-content: space-around; /* Sekmeleri eşit aralıklarla dağıt */
+    justify-content: space-around;
+    /* Sekmeleri eşit aralıklarla dağıt */
     padding: 10px;
     border-bottom: 1px solid #e1e2e3;
 }
 
 #mesajlasmaAlani #filtre {
-    background-color: transparent; /* Arkaplan rengini kaldır */
+    background-color: transparent;
+    /* Arkaplan rengini kaldır */
     border: none;
     padding: 0;
     font-weight: bold;
     cursor: pointer;
 }
 
-#mesajlasmaAlani #filtre.aktif { /* Aktif sekme için stil */
+#mesajlasmaAlani #filtre.aktif {
+    /* Aktif sekme için stil */
     color: #007bff;
     border-bottom: 2px solid #007bff;
+}
+
+#spotifybaslik {
+    width: 20%;
+    height: 10%;
+    margin-top: 24%;
+    padding-top: 10px;
+    float: left;
+    position: fixed;
+    background-color: rgb(239, 242, 246);
+    border-bottom: 2px solid black;
+}
+
+#spotifyblok {
+    width: 20%;
+    height: 40%;
+    overflow-y: auto;
+    /* Sadece dikey kaydırma çubuğu eklemek için */
+    margin-top: 30%;
+    float: left;
+    position: fixed;
+}
+
+#spotifyPlayerContainer {
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto;
+    margin-left: 0;
+}
+
+#musicControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#musicControls button,
+#musicControls input {
+    background-color: darkcyan;
+    padding: 10px;
 }

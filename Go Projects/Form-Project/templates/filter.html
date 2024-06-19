@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum - Filtered Posts</title>
 </head>
+
 <body>
     <h1>Filtered Posts</h1>
     {{ range . }}
-        <div>
-            <h2>{{ .Title }}</h2>
-            <p>Posted by {{ .Username }} on {{ .CreatedAt }}</p>
-            <p>{{ .Content }}</p>
-        </div>
-        <hr>
+    <div>
+        <h2>{{ .Title }}</h2>
+        <p>Posted by {{ .Username }} on {{ .CreatedAt }}</p>
+        <p>{{ .Content }}</p>
+    </div>
+    <hr>
     {{ end }}
 </body>
+
 </html>

@@ -1,144 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/myprofil.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bar.css">
     <title>Document</title>
-    <!-- CSS Stilleri -->
-    <style>
-        /* Genel vücut stillemesi */
-        body {
-            font-family: sans-serif; /* Yazı tipi */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            background-color: #f4f4f4; /* Arka plan rengi */
-            margin: 0; /* Kenar boşluğu */
-        }
-
-        /* Gece modu için stillemeler */
-        body.night-mode {
-            background-color: rgb(20, 25, 31); /* Gece modu arka plan rengi */
-            color: white; /* Gece modu metin rengi */
-        }
-
-        /* Profil container */
-        .profile-container {
-            background-color: #fff; /* Profil container arka plan rengi */
-            border-radius: 8px; /* Köşe yuvarlaklığı */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Gölge */
-            height: 40%; /* Yükseklik */
-            width: 50%; /* Genişlik */
-            text-align: center; /* Metin hizalama */
-            margin-bottom: 10px; /* Alt boşluk */
-        }
-
-        /* Profil resmi */
-        .profile-picture {
-            width: 150px; /* Genişlik */
-            height: 150px; /* Yükseklik */
-            border-radius: 50%; /* Kenar yuvarlaklığı */
-            object-fit: cover; /* Resmi container'a sığdırma */
-            margin-bottom: 20px; /* Alt boşluk */
-        }
-
-        /* Profil bilgileri */
-        .profile-info {
-            margin-bottom: 20px; /* Alt boşluk */
-        }
-
-        /* Profil bilgisi paragrafları */
-        .profile-info p {
-            margin: 5px 0; /* Paragraf kenar boşlukları */
-        }
-
-        /* Profil istatistikleri */
-        .profile-stats {
-            display: flex;
-            justify-content: space-around; /* İçeriği yatayda dağıtma */
-            border-top: 1px solid #ddd; /* Üst kenarlık */
-            padding-top: 20px; /* Üst boşluk */
-        }
-
-        /* Profil istatistiği içerikleri */
-        .profile-stats div {
-            text-align: center; /* Metin hizalama */
-        }
-
-        /* Bilgi çubuğu stillemesi */
-        #bilgibar {
-            height: 10%; /* Yükseklik */
-            width: 50%; /* Genişlik */
-            background-color: #641515; /* Arka plan rengi */
-        }
-
-        /* Bilgi çubuğu içerikleri stillemesi */
-        #bilgibarcont {
-            height: 100%; /* Yükseklik */
-            width: 20%; /* Genişlik */
-            background-color: #16d6da; /* Arka plan rengi */
-            color: black; /* Metin rengi */
-            text-align: center; /* Metin hizalama */
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Yazı tipi */
-            float: left; /* Sola yaslama */
-            margin-left: 8%; /* Sol boşluk */
-            margin-right: 5%; /* Sağ boşluk */
-        }
-    </style>
 </head>
+
 <body>
-    <!-- Profil container -->
-    <div class="profile-container">
-        <!-- Profil resmi -->
-        <img src="/static/png/pp.png" alt="Liyan Profil Fotoğrafı" class="profile-picture">
-        <!-- Profil adı -->
-        <h2>Liyan</h2>
-        <!-- Profil bilgileri -->
-        <div class="profile-info">
-            <p><strong>Decapat:</strong> 39</p>
-            <p><strong>Katılım:</strong> 11 Nisan 2022</p>
-            <p><strong>Son Etkinlik:</strong> Az Önce (Üye profilini görüntülüyor Liyan)</p>
+
+    <!-- Üst çubuk -->
+    <div id="bigbar">
+        <div id="düzenbar">
+            <div id="bar">
+                <!-- Logo -->
+                <a href="index.html" id="logo"
+                    style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 15%; height: 100%;"></a>
+
+                <input type="text" id="searchBox" placeholder="Arama Yapınız" onkeyup="searchPosts()">
+                <div id="darkmod">
+                    <!-- Tema değiştirme düğmesi -->
+                    <span class="theme-mode">
+                        <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                            <i id="themeIcon" class="fas fa-sun"></i></a>
+                    </span>
+                </div>
+                <div id="girişbar">
+                    <nav>
+                        <a href="/logout" id="logoutButton" class="button">Log Out</a>
+                    </nav>
+                </div>
+            </div>
         </div>
-        <!-- Profil istatistikleri -->
-        <div class="profile-stats">
+    </div>
+    <div id="görünmezbar"></div>
+    <!-- Profil container -->
+    <div id="profileContainer">
+        <!-- Geri Dön Butonu -->
+        <button id="backButton" onclick="closeLogin()">Back to home</button>
+        <!-- Profil Resmi -->
+        <img id="profilePicture" src="/static/png/pp.png" alt="Liyan Profil Fotoğrafı">
+        <!-- Profil Adı -->
+        <h2 id="profileName">Msf-Snc</h2>
+        <!-- Profil Bilgileri -->
+        <div id="profileInfo">
+            <p><strong>Age:</strong> 21</p>
+            <p><strong>Participation:</strong> 29 Mayıs 2024</p>
+            <p><strong>Last Event:</strong> Just Now (Viewing member profile msf_snc)</p>
+        </div>
+        <!-- Profil İstatistikleri -->
+        <div id="profileStats">
             <div>
-                <p><strong>Mesajlar</strong></p>
+                <p><strong>My Messages</strong></p>
                 <p>10</p>
             </div>
             <div>
-                <p><strong>Beğeniler</strong></p>
+                <p><strong>Liked Posts</strong></p>
                 <p>2</p>
             </div>
             <div>
-                <p><strong>Puanlar</strong></p>
+                <p><strong>Liked Comments</strong></p>
                 <p>768</p>
             </div>
         </div>
-        <!-- Tema değiştirme düğmesi -->
-        <button id="themeToggle">Toggle Theme</button>
     </div>
-    <!-- Bilgi çubuğu -->
-    <div id="bilgibar">
-        <!-- Bilgi çubuğu içeriği -->
-        <div id="bilgibarcont">Yaptığı Yorumlar</div>
-        <div id="bilgibarcont">Çözüm bulduğu postlar</div>
-        <div id="bilgibarcont">Takip ettiği konular </div>
-    </div>
-    <!-- JS betikleri -->
+
+    <!-- JS betikleri, bunu çıkarınca tema çalışmıyor -->
     <script src="/static/scripts.js"></script>
     <!-- Tema değiştirme betiği -->
     <script>
         // Sayfa yüklendiğinde temayı ayarla
-        window.onload = function() {
+        window.onload = function () {
             let tema = localStorage.getItem("tema") || "light"; // Varsayılan tema
             document.body.classList.add(tema + "-mode"); // Varsa "light-mode" veya "dark-mode" ekle
         };
 
         // Tema değiştirme düğmesini dinle
-        document.getElementById('themeToggle').addEventListener('click', function() {
+        document.getElementById('themeToggle').addEventListener('click', function () {
             const currentTheme = document.body.classList.contains('light-mode') ? 'night-mode' : 'light-mode';
             changeTheme(currentTheme);
         });
@@ -149,4 +89,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -1,201 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Post</title>
-    <style>
-        /* Genel sayfa stili */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Değişiklik: Dikey hizalama tam ortaya */
-            width: 100%;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: black;
-            font-family: 'Arial', sans-serif;
-        }
-         /* Gece modu için stillemeler */
-         body.night-mode {
-            background-color: rgb(20, 25, 31); /* Gece modu arka plan rengi */
-            color: white; /* Gece modu metin rengi */
-        }
-
-        /* Gece modunda giriş container'ı stillemesi */
-        body.night-mode .create-post-container {
-            background-color: rgb(29, 38, 49); /* Gece modunda container arka plan rengi */
-            color: white; /* Gece modunda metin rengi */
-        }
-        /* Post oluşturma konteynırı stili */
-        .create-post-container {
-            position: relative;
-            background-color: #fff;
-            padding: 20px;
-            width: 60%; /* Değişiklik: Genişlik artırıldı */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: auto; /* Değişiklik: Ortaya hizalama */
-            font-family: 'Arial', sans-serif;
-        }
-        /* Kapatma düğmesi stili */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        /* Başlık stili */
-        h1 {
-            text-align: left; /* Değişiklik: Başlık sola hizalandı */
-            margin-bottom: 20px;
-        }
-        /* Etiket stili */
-        label {
-            display: block;
-            margin-bottom: 5px;
-            text-align: left; /* Değişiklik: Etiketler sola hizalandı */
-        }
-        /* Giriş alanı stili */
-        input[type="text"],
-        textarea,
-        input[list] {
-            display: block;
-            width: 50%; /* Değişiklik: Giriş alanları genişletildi */
-            margin-bottom: 15px; /* Değişiklik: Boşluk eklendi */
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        /* Text alanı stili */
-        textarea {
-            height: 150px;
-            resize: none;
-        }
-        /* Gönder düğmesi stili */
-        button {
-            display: block;
-            width: 33%;
-            margin: 0 auto;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            box-sizing: border-box;
-            float: left;
-            font-family: 'Arial', sans-serif;
-        }
-        /* Gönder düğmesi üzerine gelindiğinde stili */
-        button:hover {
-            background-color: #0056b3;
-        }
-        #buttons {
-            width: 100%;
-            height: 20%;
-            background-color: #dc3545;
-        }
-/* Temizle, Create Post ve Toggle Theme butonlarını yan yana getir */
-.form-buttons button {
-    display: inline-block;
-    width: calc(100% / 3 - 10px); /* Butonların genişliğini eşit olarak ayarla ve aralarına boşluk bırak */
-    margin: 0 5px; /* Butonlar arasında biraz boşluk bırak */
-}
-
-/* Temizle butonunu kırmızı yap */
-button#clearButton {
-    background-color: #dc3545;
-    color: white;
-}
-        #searchkategori{
-            width: 50%;
-            height: 100px;
-            float: right;
-            margin-top: -70px;
-        }
-        #searchkategoribox {
-            margin-left: 15%;
-            margin-right: 10px; /* Space between the boxes */
-        }
-
-        #searchkategoribilgi {
-            margin-left: 30px; /* Space between the boxes */
-        }
-        .form-right {   
-            float: left;
-        }
-
-        .search-container {
-            margin-bottom: 10px; /* Space below the search box */
-        }
-
-        #searchBox {
-            width: 85%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .dropdown-container {
-            position: absolute;
-            width: 13%; /* Genişlik artırıldı */
-            max-height: 200px; /* Maksimum yükseklik sınırı eklendi */
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 10px; /* Border radius artırıldı */
-            padding: 15px; /* Padding artırıldı */
-            background-color: #fafafa; /* Arka plan rengi değiştirildi */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Box-shadow artırıldı */
-            z-index: 1;
-            display: none; /* Başlangıçta gizli */
-            font-family: 'Arial', sans-serif;
-        }
-
-        .dropdown-item {
-            background-color: #f0f0f0; /* Light gray background */
-            color: black; /* Black text color */
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8em; /* Smaller font size */
-            margin-bottom: 5px; /* Aralarına boşluk eklendi */
-        }
-
-        .dropdown-item:hover {
-            background-color: #e0e0e0; /* Lighter gray background on hover */
-        }
-
-        #selectedLanguagesContainer {
-            margin-top: 10px; /* Space above the selected languages */
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/create.css">
 </head>
+
 <body>
     <script src="/static/scripts.js"></script>
     <div class="create-post-container" id="create-post-container">
-        <h1>Create Post</h1> <!-- Değişiklik: Başlık sola hareket etti -->
+        <div id="darkmod">
+            <span class="theme-mode">
+                <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                    <i id="themeIcon" class="fas fa-sun"></i></a>
+            </span>
+        </div>
+        <h1>Create Post</h1>
         <button class="close-btn" onclick="closeCreatePost()">×</button>
         <form action="/createPost" method="post">
             <div class="form-top">
-              <div>
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" required>
-              </div>
-              <div>
+                <div>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
                 <div id="searchkategori">
                     <div id="searchkategoribox">
                         <div class="form-right">
@@ -203,7 +31,6 @@ button#clearButton {
                                 <input type="text" id="searchBox" placeholder="Kategori Ara...">
                             </div>
                             <div id="resultsContainer" class="dropdown-container">
-                                <!-- Dropdown items will be added here dynamically -->
                             </div>
                         </div>
                         <div id="searchkategoribilgi">
@@ -214,112 +41,99 @@ button#clearButton {
                         </div>
                     </div>
                 </div>
-              </div>
             </div>
-      
+
             <label for="content">Content</label>
             <textarea id="content" name="content" maxlength="600" required></textarea>
-       
-     
-      
-        <div id="selectedLanguagesContainer">
-            <ul id="selectedLanguagesList"></ul>
-        </div>
-        <br> <button type="submit">Create Post</button>
-                 <button type="button" id="clearButton">Temizle</button>
-                 <button id="themeToggle">Toggle Theme</button>
-            </form>
-           
-        </div>
-        
+
+            <input type="hidden" id="categoriesInput" name="categories">
+            <br><br>
+            <button class="form-buttons" type="submit">Create Post</button>
+            <button class="form-buttons" type="button" id="clearButton">Temizle</button>
+        </form>
     </div>
 
-    
-    <!-- Scripts etiketi -->
     <script>
         function closeCreatePost() {
             window.location.href = 'index.html';
         }
 
         // Tüm dropdownları kapatan fonksiyon
-function closeAllDropdowns() {
-    const dropdowns = document.querySelectorAll('.dropdown-container');
-    dropdowns.forEach(dropdown => {
-        dropdown.style.display = 'none';
-    });
-}
+        function closeAllDropdowns() {
+            const dropdowns = document.querySelectorAll('.dropdown-container');
+            dropdowns.forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+        }
 
-// Sayfa üzerinde herhangi bir yere tıklandığında dropdown'ları kontrol eden event listener
-document.addEventListener('click', function(event) {
-    const isClickInsideDropdown = document.getElementById('resultsContainer').contains(event.target);
-    if (!isClickInsideDropdown) {
-        closeAllDropdowns();
-    }
-});
+        // Sayfa üzerinde herhangi bir yere tıklandığında dropdown'ları kontrol eden event listener
+        document.addEventListener('click', function (event) {
+            const isClickInsideDropdown = document.getElementById('resultsContainer').contains(event.target);
+            if (!isClickInsideDropdown) {
+                closeAllDropdowns();
+            }
+        });
 
-// Temizle butonunu hedefle
-const clearButton = document.getElementById('clearButton');
+        // Temizle butonunu hedefle
+        // Temizle butonunu hedefle
+        const clearButton = document.getElementById('clearButton');
 
-// Temizle butonuna tıklanınca formu temizle
-clearButton.addEventListener('click', function() {
-    const form = document.querySelector('form');
-    form.reset(); // Formu sıfırla
-    const selectedLanguagesList = document.getElementById('selectedLanguagesList');
-    selectedLanguagesList.innerHTML = ''; // Seçilen kategoriler listesini temizle
-});
+        // Temizle butonuna tıklanınca sadece seçilen kategorileri temizle
+        clearButton.addEventListener('click', function () {
+            const selectedLanguagesList = document.getElementById('selectedLanguagesList');
+            selectedLanguagesList.innerHTML = ''; // Seçilen kategoriler listesini temizle
+            updateCategoriesInput();
+        });
+        // Kategoriler penceresini açan fonksiyon
+        function openCategoriesDropdown() {
+            document.getElementById('resultsContainer').style.display = 'block';
+        }
 
-// Kategoriler penceresini açan fonksiyon
-function openCategoriesDropdown() {
-    document.getElementById('resultsContainer').style.display = 'block';
-}
+        // Kategoriler penceresini kapatan fonksiyon
+        function closeCategoriesDropdown() {
+            document.getElementById('resultsContainer').style.display = 'none';
+        }
 
-// Kategoriler penceresini kapatan fonksiyon
-function closeCategoriesDropdown() {
-    document.getElementById('resultsContainer').style.display = 'none';
-}
+        // Sayfa üzerinde herhangi bir yere tıklandığında dropdown'ı kontrol eden event listener
+        document.addEventListener('click', function (event) {
+            const dropdownButton = document.getElementById('searchBox');
+            const dropdownContainer = document.getElementById('resultsContainer');
 
-// Sayfa üzerinde herhangi bir yere tıklandığında dropdown'ı kontrol eden event listener
-document.addEventListener('click', function(event) {
-    const dropdownButton = document.getElementById('searchBox');
-    const dropdownContainer = document.getElementById('resultsContainer');
-
-    // Dropdown'ın içine veya dropdown düğmesine tıklanmışsa, dropdown açık bırakılır
-    if (event.target === dropdownButton || dropdownContainer.contains(event.target)) {
-        openCategoriesDropdown();
-    } else {
-        // Dropdown'ın dışına tıklanmışsa, dropdown kapatılır
-        closeCategoriesDropdown();
-    }
-});
-
-// Dropdown açma fonksiyonları devam eder...
-
+            if (event.target === dropdownButton || dropdownContainer.contains(event.target)) {
+                openCategoriesDropdown();
+            } else {
+                closeCategoriesDropdown();
+            }
+        });
 
 
         // Dropdown ve arama fonksiyonları
         const searchBox = document.getElementById('searchBox');
         const resultsContainer = document.getElementById('resultsContainer');
         const selectedLanguagesList = document.getElementById('selectedLanguagesList');
-        const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7']; // Sample categories
+        const categories = ['Database', 'Programming', 'Artificial Intelligence', 'Game Engines', 'Robotic Systems',
+            'React Native', 'Cyber Security'
+        ];
 
-        searchBox.addEventListener('focus', function() {
+        searchBox.addEventListener('focus', function () {
             displayInitialCategories();
         });
 
-        searchBox.addEventListener('input', function() {
+        searchBox.addEventListener('input', function () {
             const query = this.value.toLowerCase();
             resultsContainer.innerHTML = ''; // Clear previous results
 
             if (query.length > 0) {
                 resultsContainer.style.display = 'block'; // Show the container if there's a query
 
-                const filteredCategories = categories.filter(category => category.toLowerCase().includes(query));
+                const filteredCategories = categories.filter(category => category.toLowerCase().includes(
+                    query));
 
                 filteredCategories.forEach(category => {
                     const item = document.createElement('div');
                     item.className = 'dropdown-item';
                     item.textContent = category;
-                    item.addEventListener('click', function() {
+                    item.addEventListener('click', function () {
                         selectCategory(category);
                     });
                     resultsContainer.appendChild(item);
@@ -333,51 +147,93 @@ document.addEventListener('click', function(event) {
             resultsContainer.innerHTML = '';
             resultsContainer.style.display = 'block';
 
-            const initialCategories = categories.slice(0, 5);
-
-            initialCategories.forEach(category => {
+            // Tüm kategorileri listele
+            categories.forEach(category => {
                 const item = document.createElement('div');
                 item.className = 'dropdown-item';
                 item.textContent = category;
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     selectCategory(category);
                 });
                 resultsContainer.appendChild(item);
             });
         }
 
-        // Create Post butonunu hedefle
-const createPostButton = document.querySelector('.create-post-button');
-
-// Create Post butonuna tıklandığında
-createPostButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Formun otomatik olarak gönderilmesini engelle
-    // Buraya Create Post işlevini ekleyebilirsin, örneğin:
-    alert('Create Post butonuna tıklandı!');
-});
-
-// Toggle Theme butonunu hedefle
-const themeToggleButton = document.getElementById('themeToggle');
-
-// Toggle Theme butonuna tıklandığında
-themeToggleButton.addEventListener('click', function() {
-    const currentTheme = document.body.classList.contains('light-mode') ? 'night-mode' : 'light-mode';
-    changeTheme(currentTheme);
-});
-
-
         function selectCategory(category) {
-            if (selectedLanguagesList.children.length < 3) {
+            const selectedCategories = Array.from(selectedLanguagesList.children).map(item => item.textContent);
+
+            if (selectedCategories.includes(category)) {
+                alert("Bu kategori zaten seçildi.");
+                return;
+            }
+
+            if (selectedCategories.length < 3) {
                 const selectedCategory = document.createElement('span');
                 selectedCategory.className = 'dropdown-item';
                 selectedCategory.textContent = category;
-                selectedCategory.addEventListener('click', function() {
+                selectedCategory.addEventListener('click', function () {
                     selectedLanguagesList.removeChild(selectedCategory);
+                    updateCategoriesInput();
                 });
                 selectedLanguagesList.appendChild(selectedCategory);
+                updateCategoriesInput();
             } else {
                 alert("En fazla 3 kategori seçebilirsiniz.");
             }
+        }
+
+        // Create Post butonunu hedefle
+        const createPostButton = document.querySelector('.create-post-button');
+
+        // Create Post butonuna tıklandığında
+        createPostButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Formun otomatik olarak gönderilmesini engelle
+            const form = document.querySelector('form');
+            const title = form.title.value;
+            const content = form.content.value;
+            const categories = Array.from(document.querySelectorAll('#selectedLanguagesList .dropdown-item'))
+                .map(item => item.textContent);
+
+            // Kategori verilerini formun hidden bir alanına ekleyin
+            const categoriesInput = document.createElement('input');
+            categoriesInput.type = 'hidden';
+            categoriesInput.name = 'categories';
+            categoriesInput.value = JSON.stringify(categories);
+            form.appendChild(categoriesInput);
+
+            form.submit(); // Formu gönder
+        });
+
+
+
+        function selectCategory(category) {
+            const selectedCategories = Array.from(selectedLanguagesList.children).map(item => item.textContent);
+
+            if (selectedCategories.includes(category)) {
+                alert("Bu kategori zaten seçildi.");
+                return;
+            }
+
+            if (selectedLanguagesList.children.length >= 3) { // Changed to >=
+                alert("En fazla 3 kategori seçebilirsiniz.");
+                return; // Added return to stop execution
+            }
+
+            const selectedCategory = document.createElement('span');
+            selectedCategory.className = 'dropdown-item';
+            selectedCategory.textContent = category;
+            selectedCategory.addEventListener('click', function () {
+                selectedLanguagesList.removeChild(selectedCategory);
+                updateCategoriesInput();
+            });
+            selectedLanguagesList.appendChild(selectedCategory);
+            updateCategoriesInput();
+        }
+
+
+        function updateCategoriesInput() {
+            const selectedCategories = Array.from(selectedLanguagesList.children).map(item => item.textContent);
+            document.getElementById('categoriesInput').value = JSON.stringify(selectedCategories);
         }
 
         function changeTheme(theme) {
@@ -386,18 +242,17 @@ themeToggleButton.addEventListener('click', function() {
             localStorage.setItem("tema", theme);
         }
 
-                    // Tema ayarları
-                    window.onload = function() {
+        // Tema ayarları
+        window.onload = function () {
             let tema = localStorage.getItem("tema") || "light";
             document.body.classList.add(tema + "-mode");
         };
 
-        document.getElementById('themeToggle').addEventListener('click', function() {
+        document.getElementById('themeToggle').addEventListener('click', function () {
             const currentTheme = document.body.classList.contains('light-mode') ? 'night-mode' : 'light-mode';
             changeTheme(currentTheme);
         });
     </script>
-
-
 </body>
+
 </html>

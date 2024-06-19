@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/sifreunut.css">
+    <title>Reset Password</title>
+</head>
+
+<body>
+
+    <div class="reset-container">
+        <button class="close-btn" onclick="closeLogin()">×</button>
+        <h1>Reset Password</h1>
+        <form action="/reset-password" method="post">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" required>
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
+
+    <script>
+        // Giriş sayfasına yönlendirme fonksiyonu
+        function closeLogin() {
+            window.location.href = 'index.html';
+        }
+    </script>
+
+</body>
+
+</html>

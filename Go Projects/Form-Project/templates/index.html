@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <title>Software News</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bar.css">
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
 </head>
+
 <body>
     <!-- Üst çubuk -->
     <div id="bigbar">
         <div id="düzenbar">
             <div id="bar">
-                <img id="logo" src="/static/png/logo.png">
-                <input type="text" id="searchBox" placeholder="Arama Yapınız" onkeyup="searchLanguages()">
+                <!-- Logo -->
+                <a href="index.html" id="logo"
+                    style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 15%; height: 100%;"></a>
+
+                <input type="text" id="searchBox" placeholder="Search Now" onkeyup="searchPosts()">
                 <div id="darkmod">
                     <!-- Tema değiştirme düğmesi -->
                     <span class="theme-mode">
                         <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
-                          <i id="themeIcon" class="fas fa-sun"></i></a> 
+                            <i id="themeIcon" class="fas fa-sun"></i></a>
                     </span>
                 </div>
                 <div id="girişbar">
@@ -27,23 +35,26 @@
                         <div id="myprofil">
                             <a href="/myprofil"><img width="80%" height="100%" src="/static/png/pp.png"></a>
                         </div>
-                            <a href="/logout" class="button">Log Out</a>
-                             <!-- Hoş geldiniz popup'ı -->
-                            <script>
+                        <a href="/logout" id="logoutButton" class="button">Log Out</a>
+                        <!-- Hoş geldiniz popup'ı -->
+                        <script>
+                            // Eğer popup daha önce gösterilmemişse göster
+                            if (!localStorage.getItem('popupGosterildi')) {
                                 const welcomePopup = document.createElement('div');
                                 welcomePopup.innerHTML = `
-                                    <div id="welcomePopup" style="position: fixed; top: 0; left: 0; width: 100%; height: 15%;  display: flex; justify-content: center; align-items: center; z-index: 9999;">
-                                        <div id="popup" style="background-color: white; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); color: black;">
-                                            <h4>Hoş geldiniz!</h4>
-                                            <p>Sitemize giriş yaptığınız için teşekkür ederiz.</p>
+                                        <div id="welcomePopup" style="position: fixed; top: 0; left: 0; width: 100%; height: 15%;  display: flex; justify-content: center; align-items: center; z-index: 9999;">
+                                            <div id="popup" style="background-color: white; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); color: black;">
+                                                <h4>Hoş geldiniz!</h4>
+                                                <p>Sitemize giriş yaptığınız için teşekkür ederiz.</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                `;
+                                    `;
                                 document.body.appendChild(welcomePopup);
-                                
+
                                 // Tema moduna göre popup rengini ayarla
                                 const popupElement = welcomePopup.querySelector('#popup');
-                                const theme = localStorage.getItem("tema") || "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
+                                const theme = localStorage.getItem("tema") ||
+                                    "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
                                 if (theme === "dark") {
                                     popupElement.style.backgroundColor = "rgb(239, 242, 246)";
                                     popupElement.style.color = "black";
@@ -51,78 +62,133 @@
                                     popupElement.style.backgroundColor = "rgb(20, 25, 31)";
                                     popupElement.style.color = "white";
                                 }
-                            
+
                                 // Pop-up'ı kapatmak için bir zamanlayıcı kullan
                                 setTimeout(() => {
-                                    welcomePopup.remove();  // Pop-up'ı kapat
-                                }, 1500);  
-                            </script>
+                                    welcomePopup.remove(); // Pop-up'ı kapat
+                                }, 1500);
+
+                                // Popup'ın gösterildiğini işaretle
+                                localStorage.setItem('popupGosterildi', 'true');
+                            }
+
+                            // Çıkış yap butonuna tıklandığında onay popup'ı göster ve localStorage'ı temizle
+                            document.querySelector('#logoutButton').addEventListener('click', function (event) {
+                                event
+                                    .preventDefault(); // Bağlantının varsayılan davranışını engelle (sayfayı yenileme)
+
+                                // Onay popup'ını göster
+                                if (confirm('Are you sure you want to log out?')) {
+                                    // localStorage'ı temizle
+                                    localStorage.removeItem('popupGosterildi');
+
+                                    // Kullanıcı evet derse, logout sayfasına git
+                                    window.location.href = this.getAttribute('href');
+                                }
+                            });
+                        </script>
 
                         {{else}}
-                            <a href="/login" class="button">Log In</a>
-                            <a href="/register" class="button">Register</a>
+                        <a href="/login" class="button">Log In</a>
+                        <a href="/register" class="button">Register</a>
                         {{end}}
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    <div id="line"></div>
     <div id="görünmezbar"></div>
-    <div id="left">
-         <!-- Yeni gönderi oluşturma bağlantısı -->
-        <a id="centerolustur" href="{{if .LoggedIn}}/createPost{{else}}/login{{end}}">
-            {{if .LoggedIn}}
-                Create a new post
-            {{else}}
-                create a new post
-            {{end}}
-        </a>
-        <!-- Kategori listesi -->
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"> <img src="/static/png/database.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Veri Tabanı</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"><img src="/static/png/coding.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Programlama</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"><img src="/static/png/artificial-intelligence.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Yapay Zeka</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"><img src="/static/png/ghost.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Oyun Motorları</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"><img src="/static/png/robot.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Robotik Sistemler</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"><img src="/static/png/structure.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı"> React Native</div>
-        </div>
-
-        <div id="leftkatagoricont">
-            <div id="leftkatagoricontfoto"> <img src="/static/png/cyber-criminal.png" width="90%" height="50%"></div>
-            <div id="leftkatagoricontyazı">Cyber Security</div>
+    <div id="spotifybaslik"><img width="90%" height="90%" src="/static/png/spotify.png" alt=""></div>
+    <div id="spotifyblok">
+        <div id="spotifyPlayerContainer">
+            <iframe style="border-radius:12px"
+                src="https://open.spotify.com/embed/track/3SsRUxmmH77OKEOu0zlEvv?utm_source=generator" width="100%"
+                height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"></iframe>
+            <iframe style="border-radius:12px"
+                src="https://open.spotify.com/embed/track/60Fq8L51FhwH9VhoQbII2J?utm_source=generator" width="100%"
+                height="152" frameBorder="0" allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"></iframe>
+            <iframe style="border-radius:12px"
+                src="https://open.spotify.com/embed/track/0md9ggTF7selJptz6I5jjg?utm_source=generator" width="100%"
+                height="152" frameBorder="0" allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"></iframe>
         </div>
     </div>
+
+    <div id="left">
+        <!-- Yeni gönderi oluşturma bağlantısı -->
+        <a id="centerolustur" href="{{if .LoggedIn}}/createPost{{else}}/login{{end}}">
+            {{if .LoggedIn}}
+            Create a new post
+            {{else}}
+            Create a new post
+            {{end}}
+        </a>
+        <div id="categoryFilter" onchange="filterByCategory()">
+            <div id="categoryFilter">
+                <div id="leftkatagoricont" data-category="Programlama">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/coding.png" width="90%" height="50%"></div>
+                    <div id="leftkatagoricontyazı">Programming</div>
+                </div>
+
+                <div id="leftkatagoricont" data-category="Yapay Zeka">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/artificial-intelligence.png" width="90%"
+                            height="50%"></div>
+                    <div id="leftkatagoricontyazı">Artificial Intelligence</div>
+                </div>
+
+                <div id="leftkatagoricont" data-category="Oyun Motorları">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/ghost.png" width="90%" height="50%"></div>
+                    <div id="leftkatagoricontyazı">Game Engines</div>
+                </div>
+
+                <div id="leftkatagoricont" data-category="Robotik Sistemler">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/robot.png" width="90%" height="50%"></div>
+                    <div id="leftkatagoricontyazı">Robotic Systems</div>
+                </div>
+
+                <div id="leftkatagoricont" data-category="React Native">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/structure.png" width="90%" height="50%"></div>
+                    <div id="leftkatagoricontyazı">React Native</div>
+                </div>
+
+                <div id="leftkatagoricont" data-category="Cyber Security">
+                    <div id="leftkatagoricontfoto"><img src="/static/png/cyber-criminal.png" width="90%" height="50%">
+                    </div>
+                    <div id="leftkatagoricontyazı">Cyber Security</div>
+                </div>
+            </div>
+            <!-- Diğer kategoriler buraya eklenebilir -->
+        </div>
+        <!-- Kategori listesi -->
+        <script>
+            const categoryDivs = document.querySelectorAll('#categoryFilter #leftkatagoricont');
+
+            categoryDivs.forEach(div => {
+                div.addEventListener('click', () => {
+                    const selectedCategory = div.querySelector('#leftkatagoricontyazı').textContent;
+
+                    // URL'yi güncelle ve sayfayı yeniden yükle
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set('category', selectedCategory);
+                    window.location.href = currentUrl.toString();
+                });
+            });
+        </script>
+    </div>
+
     <!-- Ana içerik alanı -->
     <div id="center">
         <div id="filtrecont">
-            <div id="filtre">En Yeni</div>
-            <div id="filtre">Çözülmüş</div>
+            <div id="filtre">Most Liked</div>
+            <div id="filtre"></div>
             <div id="filtre"></div>
             <div id="filtre"></div>
         </div>
-         <!-- Gönderi listesi -->
+        <!-- Gönderi listesi -->
         <div id="centercont">
             {{range .Posts}}
             <div class="post">
@@ -131,60 +197,65 @@
                         <img width="80%" height="100%" src="/static/png/pp.png">
                     </div>
                     <div id="name">
-                       {{.Username}}
+                        {{.Username}}
                     </div>
-                
                 </div>
-                    <div id="centersorubaslik">
-                        <ul><li> <h3><a href="/viewPost?id={{.ID}}">{{.Title}}</a></h3> </li></ul>
-                             <ul><li> {{.CreatedAtFormatted}} &nbsp; {{.LikeCount}} Likes {{.DislikeCount}} Dislikes  </li></ul>
+                <div id="centersorubaslik">
+                    <ul>
+                        <li>
+                            <h3><a href="/viewPost?id={{.ID}}">{{.Title}}</a></h3>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li> {{.CreatedAtFormatted}} &nbsp; {{.LikeCount}} Likes {{.DislikeCount}} Dislikes </li>
+                    </ul>
 
-                    </div>
-                    <div id="centersorukatagori">
-                        <!-- Gönderi silme formu -->
-                        <form id="deletePostForm" action="/deletePost" method="post">
-                            <input type="hidden" name="post_id" value="{{.ID}}">
-                            <button type="submit">
-                                <img src="/static/png/delete.png" alt="Delete">
-                            </button>
-                        </form>
-                        <p>Kategori</p>
-                    </div>
+                </div>
+                <div id="centersorukatagori">
+                    <!-- Gönderi silme formu -->
+                    <form id="deletePostForm" action="/deletePost" method="post">
+                        <input type="hidden" name="post_id" value="{{.ID}}">
+                        <button type="submit">
+                            <img src="/static/png/delete.png" alt="Delete">
+                        </button>
+                    </form>
+                    <h4>Category</h4>
+                    {{.CategoriesFormatted}}
+                </div>
             </div>
             {{end}}
-       </div> 
+        </div>
     </div>
 
     <div id="mesajlasmaAlani">
         <div id="mesajlasmaBaslik">
-            <h3>Mesajlaşma</h3>
-            <input type="text" id="mesajlardaAra" placeholder="Mesajlarda ara...">
+            <h3>Messaging</h3>
         </div>
         <div id="mesajListesi">
             <div class="mesaj ben">
                 <img src="/static/png/pp.png" alt="Profil Resmi" class="profilResmi">
-                <div class="mesajIcerik">Merhaba, nasılsın?</div>
+                <div class="mesajIcerik">Hi, have you seen the Software News site, it's great!</div>
                 <div class="mesajTarihi">12:30</div>
             </div>
             <div class="mesaj diger">
                 <img src="/static/png/pp2.png" alt="Profil Resmi" class="profilResmi">
-                <div class="mesajIcerik">İyiyim, sen nasılsın?</div>
+                <div class="mesajIcerik">Yes, I saw it, they made a very nice site, great🧑🏻‍💻</div>
                 <div class="mesajTarihi">12:32</div>
             </div>
-            </div>
+        </div>
         <div id="mesajGirisi">
             <textarea id="mesajMetni"></textarea>
-            <button id="mesajGonder">Gönder</button>
+            <button id="mesajGonder">Send</button>
         </div>
     </div>
-    
-    
+
     <!-- Harici script dosyaları -->
     <script src="/static/scripts.js"></script>
+
     <!-- Tema değiştirme script'i -->
     <script>
         let tema = localStorage.getItem("tema") || "light"; // Eğer tema daha önce kaydedilmişse kullan, yoksa "light"
-        
+
         // Sayfa yüklenirken temayı ayarla
         document.body.classList.add(tema + "-mode"); // Varsa "light-mode" veya "dark-mode" ekle
 
@@ -197,55 +268,101 @@
             document.body.classList.add(tema + "-mode"); // Yeni tema sınıfını ekle
         });
     </script>
-    <!-- Çıkış yapma onayı script'i -->
-    <script>
-        // Çıkış yap butonuna tıklandığında onay popup'ı göster
-        document.querySelector('a[href="/logout"]').addEventListener('click', function(event) {
-            event.preventDefault(); // Bağlantının varsayılan davranışını engelle (sayfayı yenileme)
-            
-            // Onay popup'ını göster
-            if (confirm('Are you sure you want to log out?')) {
-                // Kullanıcı evet derse, logout sayfasına git
-                window.location.href = this.getAttribute('href');
-            } else {
-                // Kullanıcı hayır derse, popup'ı kapat
-                // İşlemi durdurmak için gerekli değil, sadece bir geri bildirim olarak eklenir
-            }
-        });
-    </script>
+
+    <!-- Mesaj ekleme script'i -->
     <script>
         const mesajListesi = document.getElementById("mesajListesi");
 
-function mesajEkle(mesaj, gonderen) {
-    const mesajDiv = document.createElement("div");
-    mesajDiv.classList.add("mesaj", gonderen === "ben" ? "ben" : "diger");
+        function mesajEkle(mesaj, gonderen) {
+            const mesajDiv = document.createElement("div");
+            mesajDiv.classList.add("mesaj", gonderen === "ben" ? "ben" : "diger");
 
-    const profilResmi = document.createElement("img");
-    profilResmi.src = gonderen === "ben" ? "/static/png/pp.png" : "/static/png/pp2.png";
-    profilResmi.alt = "Profil Resmi";
-    profilResmi.classList.add("profilResmi");
+            const profilResmi = document.createElement("img");
+            profilResmi.src = gonderen === "ben" ? "/static/png/pp.png" : "/static/png/pp2.png";
+            profilResmi.alt = "Profil Resmi";
+            profilResmi.classList.add("profilResmi");
 
-    const mesajIcerik = document.createElement("div");
-    mesajIcerik.classList.add("mesajIcerik");
-    mesajIcerik.textContent = mesaj;
+            const mesajIcerik = document.createElement("div");
+            mesajIcerik.classList.add("mesajIcerik");
+            mesajIcerik.textContent = mesaj;
 
-    const mesajTarihi = document.createElement("div");
-    mesajTarihi.classList.add("mesajTarihi");
-    mesajTarihi.textContent = "şimdi"; // Örnek olarak "şimdi" yazıldı
+            const mesajTarihi = document.createElement("div");
+            mesajTarihi.classList.add("mesajTarihi");
+            mesajTarihi.textContent = "Now"; // Örnek olarak "şimdi" yazıldı
 
-    mesajDiv.appendChild(profilResmi);
-    mesajDiv.appendChild(mesajIcerik);
-    mesajDiv.appendChild(mesajTarihi);
+            mesajDiv.appendChild(profilResmi);
+            mesajDiv.appendChild(mesajIcerik);
+            mesajDiv.appendChild(mesajTarihi);
 
-    mesajListesi.appendChild(mesajDiv);
-    mesajListesi.scrollTop = mesajListesi.scrollHeight; // En alta scroll yap
-}
-// Örnek mesajlar (rastgele ekleyebilirsiniz)
-mesajEkle("Merhaba, nasılsın? aşko", "ben");
-mesajEkle("İyiyim, sen nasılsın? bitanem", "diger");
-mesajEkle("Ben de iyiyim, teşekkürler. 💅🏻💅🏻💅🏻", "ben");
-
+            mesajListesi.appendChild(mesajDiv);
+            mesajListesi.scrollTop = mesajListesi.scrollHeight; // En alta scroll yap
+        }
+        // Örnek mesajlar (rastgele ekleyebilirsiniz)
+        mesajEkle("I can find the solution to all my problems", "ben");
+        mesajEkle("I've got it. ", "diger");
     </script>
-    
+
+    <!-- Arama script'i -->
+    <script>
+        // Arama fonksiyonu
+        function searchPosts() {
+            const input = document.getElementById('searchBox');
+            const filter = input.value.toLowerCase();
+            const posts = document.querySelectorAll('.post'); // #post yerine .post
+
+            posts.forEach(post => {
+                const title = post.querySelector('h3 a').textContent.toLowerCase();
+                const content = post.querySelector('ul li').textContent.toLowerCase();
+                post.style.display = title.includes(filter) || content.includes(filter) ? '' : 'none';
+            });
+        }
+
+        // Arama kutusuna enter tuşu olay dinleyicisi eklenmesi
+        document.getElementById('searchBox').addEventListener('keyup', function (event) {
+            if (event.key === 'Enter') {
+                searchPosts();
+            }
+        });
+
+        function filterByCategory() {
+            const category = document.getElementById('categorySelect').value;
+            const searchQuery = document.getElementById('searchBox').value;
+            const params = new URLSearchParams();
+
+            if (category) {
+                params.append('category', category);
+            }
+            if (searchQuery) {
+                params.append('search', searchQuery);
+            }
+
+            window.location.href = '/?' + params.toString();
+        }
+    </script>
+
+    <!-- Spotify script'i load düzeltme-->
+    <script>
+        function loadScript(url, callback) {
+            let script = document.createElement('script');
+            script.src = url;
+            script.onload = () => callback(null, script);
+            script.onerror = () => callback(new Error(`Failed to load script: ${url}`));
+            document.head.appendChild(script);
+        }
+
+        // Example usage
+        loadScript('https://embed-cdn.spotifycdn.com/_next/static/chunks/pages/_app-c1c8488db5e2f479.js', (err,
+            script) => {
+            if (err) {
+                console.error(err);
+                alert('Failed to load Spotify script. Some features may not work.');
+            } else {
+                console.log('Spotify script loaded successfully.');
+                // Initialize or call Spotify functions here
+            }
+        });
+    </script>
+
 </body>
+
 </html>
