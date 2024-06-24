@@ -7,7 +7,6 @@ import (
 func main() {
 	for a := '0'; a <= '9'; a++ { // Birinci sayıyı temsil eden rakam
 		for b := '0'; b <= '9'; b++ { // İkinci sayıyı temsil eden rakam
-			//b + 1 işlemi yerine d değişkenini tanımlayarak daha okunabilir hale getirildi
 			d := b + 1
 			for c := a; c <= '9'; c++ { // Üçüncü sayıyı temsil eden rakam
 				for ; d <= '9'; d++ { // Dördüncü sayıyı temsil eden rakam
@@ -16,7 +15,6 @@ func main() {
 					z01.PrintRune(' ')
 					z01.PrintRune(c)
 					z01.PrintRune(d)
-
 					// Sayıları arasına virgül ve boşluk eklemek için kontrol sağlandı
 					if a < '9' || b < '8' || c < '9' || d < '9' {
 						z01.PrintRune(',')
