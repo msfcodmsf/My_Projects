@@ -22,7 +22,7 @@
             <a href="index.html" id="logo" style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 15%; height: 100%;"></a>
 
             <!-- Arama kutusu -->
-            <input type="text" id="searchBox"  placeholder="Arama Yapınız" onkeyup="searchLanguages()">
+            <input type="text" id="searchBox"  placeholder="search now" onkeyup="searchLanguages()">
             
             <!-- Tema değiştirme düğmesi -->
             <div id="darkmod">
@@ -101,6 +101,7 @@
     </div>
     </div>
     <!-- Görünmez bar -->
+    <div id="görünmezbar"></div>
     <div id="görünmezbar"></div>
     <!-- Merkez alanı -->
     <div id="center">
@@ -185,12 +186,12 @@
                 <div id="name"></div>
             </div>
             <div id="centersorubaslik">
-                <h2>Yorum Yap</h2>
+                <h2>Comment</h2>
                 <form action="/createComment" method="post">
                     <input type="hidden" name="post_id" value="{{.Post.ID}}">
                     <textarea name="content" rows="10" cols="50" required maxlength="600"></textarea>
                     <br>
-                    <button type="submit">Gönder</button> 
+                    <button type="submit">Send</button> 
                 </form> 
             </div>
         </div>

@@ -143,7 +143,7 @@ body {
   background-color: #000;
   /* Çizgi rengi */
   position: absolute;
-  left: 17%;
+  left: 18%;
   /* İstediğiniz yere göre ayarlayın */
   top: 0;
 }
@@ -241,18 +241,6 @@ body {
 
 }
 
-.styled-textarea {
-  font-weight: bold;
-  /* Kalın yazı */
-  font-style: italic;
-  /* İtalik yazı */
-  font-family: Arial, sans-serif;
-  /* İtalyan yazı */
-  /* Buraya istediğiniz diğer stil özelliklerini ekleyebilirsiniz */
-}
-
-
-
 
 /**Night Mode**/
 body.night-mode #centerprofilcont,
@@ -306,7 +294,7 @@ body.night-mode {
 }
 
 #darkmod {
-  width: 3%;
+  width: 3%;  
   height: 70%;
   margin-left: 5%;
   margin-top: 1%;
@@ -323,7 +311,6 @@ img {
   margin-right: 10px;
 }
 
-input,
 select,
 textarea {
   width: 100%;
@@ -334,4 +321,14 @@ textarea {
 
 textarea {
   resize: none;
+}
+
+
+
+@media (max-width: 1920px) {
+
+  #centerprofilcont {
+    font-size: 14px;
+    width: 18%;
+  }
 }

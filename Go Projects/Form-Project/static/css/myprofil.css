@@ -1,149 +1,337 @@
  /* Genel vücut stillemesi */
  body {
-     font-family: sans-serif;
-     /* Yazı tipi */
-     display: flex;
-     flex-direction: column;
-     margin: 0%;
-     align-items: center;
-     height: 100%;
-     width: 100%;
-     background-color: #f4f4f4;
-     /* Arka plan rengi */
-     /* Kenar boşluğu */
- }
+    font-family: sans-serif;
+    /* Yazı tipi */
+    display: flex;
+    flex-direction: column;
+    margin: 0%;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #f4f4f4;
+    /* Arka plan rengi */
+    /* Kenar boşluğu */
+}
 
- /* Gece modu için stillemeler */
- body.night-mode {
-     background-color: rgb(20, 25, 31);
-     /* Gece modu arka plan rengi */
-     color: white;
-     /* Gece modu metin rengi */
- }
+/* Gece modu için stillemeler */
+body.night-mode {
+    background-color: rgb(20, 25, 31);
+    /* Gece modu arka plan rengi */
+    color: white;
+    /* Gece modu metin rengi */
+}
 
- body.night-mode #profileContainer {
-     background-color: rgb(29, 38, 49);
-     /* Gece modu arka plan rengi */
-     color: white;
-     /* Gece modu metin rengi */
- }
+body.night-mode #centercont {
+    background-color: rgb(29, 38, 49);
+    /* Gece modu arka plan rengi */
+    color: white;
+    /* Gece modu metin rengi */
+}
 
- /* Profil Container */
- #profileContainer {
-     background-color: #fff;
-     border-radius: 8px;
-     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-     height: 40%;
-     width: 50%;
-     text-align: center;
-     margin-top: 3%;
- }
+body.night-mode #profileContainer {
+    background-color: rgb(29, 38, 49);
+    /* Gece modu arka plan rengi */
+    color: white;
+    /* Gece modu metin rengi */
+}
 
- /* Geri Dön Butonu */
- #backButton {
-     position: absolute;
-     top: 10px;
-     left: 10px;
-     padding: 5px 10px;
-     background-color: #007BFF;
-     color: #fff;
-     border: none;
-     border-radius: 5px;
-     cursor: pointer;
- }
-
- #backButton:hover {
-     background-color: #0056b3;
- }
-
- /* Profil Resmi */
- #profilePicture {
-     width: 150px;
-     height: 150px;
-     border-radius: 50%;
-     object-fit: cover;
-     margin-bottom: 20px;
- }
-
- /* Profil Bilgileri */
- #profileInfo {
-     margin-bottom: 20px;
- }
-
- /* Profil Bilgisi Paragrafları */
- #profileInfo p {
-     margin: 5px 0;
- }
-
- /* Profil İstatistikleri */
- #profileStats {
-     display: flex;
-     justify-content: space-around;
-     border-top: 1px solid #ddd;
-     padding-top: 20px;
- }
-
- /* Profil İstatistiği İçerikleri */
- #profileStats div {
-     text-align: center;
- }
+@media (max-width: 1920px) {
+    #likedPosts {
+        overflow-y: auto;
+        /* or overflow: auto; */
+        max-height: 500px;
+        /* Optional: Set a maximum height */
+    }
+    
+    #ownPosts {
+        overflow-y: auto;
+        /* or overflow: auto; */
+        max-height: 500px;
+        /* Optional: Set a maximum height */
+    }
+}
 
 
- /* Bilgi çubuğu stillemesi */
- #bilgibar {
-     height: 10%;
-     /* Yükseklik */
-     width: 50%;
-     /* Genişlik */
-     background-color: #641515;
-     /* Arka plan rengi */
- }
+@media (max-width: 1600px) {
+    #likedPosts {
+        overflow-y: auto;
+        /* or overflow: auto; */
+        max-height: 380px;
+        /* Optional: Set a maximum height */
+    }
+    
+    #ownPosts {
+        overflow-y: auto;
+        /* or overflow: auto; */
+        max-height: 380px;
+        /* Optional: Set a maximum height */
+    }
+}
 
- /* Bilgi çubuğu içerikleri stillemesi */
- #bilgibarcont {
-     height: 100%;
-     /* Yükseklik */
-     width: 20%;
-     /* Genişlik */
-     background-color: #16d6da;
-     /* Arka plan rengi */
-     color: black;
-     /* Metin rengi */
-     text-align: center;
-     /* Metin hizalama */
-     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-     /* Yazı tipi */
-     float: left;
-     /* Sola yaslama */
-     margin-left: 8%;
-     /* Sol boşluk */
-     margin-right: 5%;
-     /* Sağ boşluk */
- }
 
- /* Geri dön butonu */
- .back-button {
-     position: absolute;
-     /* Mutlak konumlandırma */
-     top: 10px;
-     /* Üstten boşluk */
-     left: 10px;
-     /* Soldan boşluk */
-     padding: 5px 10px;
-     /* İç boşluk */
-     background-color: #007BFF;
-     /* Arka plan rengi */
-     color: #fff;
-     /* Metin rengi */
-     border: none;
-     /* Kenarlık */
-     border-radius: 5px;
-     /* Köşe yuvarlaklığı */
-     cursor: pointer;
-     /* İmleç */
- }
 
- .back-button:hover {
-     background-color: #0056b3;
-     /* Hover durumu arka plan rengi */
- }
+#profileContainer {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px;
+    background-color: white;
+    padding: 60px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    /* Profil container'ını sayfanın ortasına hizalamak için */
+    margin-left: auto;
+    /* Profil container'ını sayfanın ortasına hizalamak için */
+    margin-right: auto;
+    /* Profil container'ını sayfanın ortasına hizalamak için */
+    box-shadow: 7px 7px 7px rgb(17, 40, 62);
+}
+
+#profileLeft {
+    margin-right: 10px;
+    /* Profil resmi ile bilgi arası boşluk */
+}
+
+#profileRight {
+    flex-grow: 1;
+    /* Kalan alanı kapla */
+}
+
+#profilePicture {
+    width: 150px;
+    /* Profil resmi boyutu */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+#postsContainer {
+    width: 50%;
+    /* Sekmelerin ve içeriğin genişliğini ayarla */
+    margin-left: auto;
+    /* Profil container'ını sayfanın ortasına hizalamak için */
+    margin-right: auto;
+    /* Profil container'ını sayfanın ortasına hizalamak için */
+}
+
+.tabs {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    /* Sekmeleri yatay olarak hizalar */
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.tab.active {
+    border-bottom: 2px solid #007bff;
+    /* Aktif sekmenin alt çizgisi */
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    animation: fadeOut 0.3s ease-in-out;
+    /* Başlangıçta fadeOut animasyonu */
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+    /* Aktif olduğunda fadeIn animasyonu */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.postSection {
+    flex: 1;
+    min-width: 300px;
+    margin-right: 20px;
+}
+
+
+
+/* Geri Dön Butonu */
+#backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#backButton:hover {
+    background-color: #0056b3;
+}
+
+/* Profil Resmi */
+#profilePicture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+/* Profil Bilgileri */
+#profileInfo {
+    margin-bottom: 20px;
+}
+
+/* Profil Bilgisi Paragrafları */
+#profileInfo p {
+    margin: 5px 0;
+}
+
+/* Profil İstatistikleri */
+#profileStats {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+/* Profil İstatistiği İçerikleri */
+#profileStats div {
+    text-align: center;
+}
+
+/* Bilgi çubuğu stillemesi */
+#bilgibar {
+    height: 10%;
+    /* Yükseklik */
+    width: 50%;
+    /* Genişlik */
+    background-color: #641515;
+    /* Arka plan rengi */
+}
+
+/* Bilgi çubuğu içerikleri stillemesi */
+#bilgibarcont {
+    height: 100%;
+    /* Yükseklik */
+    width: 20%;
+    /* Genişlik */
+    background-color: #16d6da;
+    /* Arka plan rengi */
+    color: black;
+    /* Metin rengi */
+    text-align: center;
+    /* Metin hizalama */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* Yazı tipi */
+    float: left;
+    /* Sola yaslama */
+    margin-left: 8%;
+    /* Sol boşluk */
+    margin-right: 5%;
+    /* Sağ boşluk */
+}
+
+/* Geri dön butonu */
+.back-button {
+    position: absolute;
+    /* Mutlak konumlandırma */
+    top: 10px;
+    /* Üstten boşluk */
+    left: 10px;
+    /* Soldan boşluk */
+    padding: 5px 10px;
+    /* İç boşluk */
+    background-color: #007BFF;
+    /* Arka plan rengi */
+    color: #fff;
+    /* Metin rengi */
+    border: none;
+    /* Kenarlık */
+    border-radius: 5px;
+    /* Köşe yuvarlaklığı */
+    cursor: pointer;
+    /* İmleç */
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+    /* Hover durumu arka plan rengi */
+}
+
+#centercont {
+    width: 85%;
+    padding: 25px;
+    margin-top: 2%;
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 7px 7px 7px rgb(17, 40, 62);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    /* Eklenen satır */
+}
+
+#centercont:hover {
+    transform: scale(1.05);
+    box-shadow: 7px 7px 7px rgb(17, 40, 62);
+}
+
+#deletePostForm {
+    position: absolute;
+    top: 10px;
+    /* Üst kenara yasla */
+    right: 5px;
+    /* Sağ kenara yasla */
+}
+
+#deletePostForm button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#deletePostForm img {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
+@media (max-width: 1600px) {
+    #profileContainer {
+        padding: 30px;
+    }
+
+    #centercont {
+        padding: 6px;
+    }
+
+    #likedPosts {
+        min-width: 500px;
+    }
+
+}

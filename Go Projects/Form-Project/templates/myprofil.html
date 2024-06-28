@@ -19,7 +19,7 @@
                 <a href="index.html" id="logo"
                     style="background-image: url('/static/png/logo.png'); background-repeat: no-repeat; background-size: contain; width: 15%; height: 100%;"></a>
 
-                <input type="text" id="searchBox" placeholder="Arama Yapınız" onkeyup="searchPosts()">
+                <input type="text" id="searchBox" placeholder="search now" onkeyup="searchPosts()">
                 <div id="darkmod">
                     <!-- Tema değiştirme düğmesi -->
                     <span class="theme-mode">
@@ -38,32 +38,60 @@
     <div id="görünmezbar"></div>
     <!-- Profil container -->
     <div id="profileContainer">
-        <!-- Geri Dön Butonu -->
-        <button id="backButton" onclick="closeLogin()">Back to home</button>
         <!-- Profil Resmi -->
         <img id="profilePicture" src="/static/png/pp.png" alt="Liyan Profil Fotoğrafı">
-        <!-- Profil Adı -->
-        <h2 id="profileName">Msf-Snc</h2>
-        <!-- Profil Bilgileri -->
-        <div id="profileInfo">
-            <p><strong>Age:</strong> 21</p>
-            <p><strong>Participation:</strong> 29 Mayıs 2024</p>
-            <p><strong>Last Event:</strong> Just Now (Viewing member profile msf_snc)</p>
+        <!-- Sağ Profil Bilgileri Kısmı -->
+        <div id="profileRight">
+            <!-- Profil Adı -->
+            <h2 id="profileName">{{ if .User.Username.Valid }}{{ .User.Username.String }}{{ else }}{{ "N/A" }}{{ end }}
+            </h2>
+            <!-- Profil Bilgileri -->
+            <div id="profileInfo">
+                <p><strong>Email:</strong> {{.User.Email}}</p>
+            </div>
         </div>
-        <!-- Profil İstatistikleri -->
-        <div id="profileStats">
-            <div>
-                <p><strong>My Messages</strong></p>
-                <p>10</p>
+    </div>
+    <!-- Profil İstatistikleri -->
+    <div id="postsContainer">
+        <ul class="tabs">
+            <li class="tab active" data-tab="ownPosts">Own Posts</li>
+            <li class="tab" data-tab="likedPosts">Liked Posts</li>
+        </ul>
+
+        <div id="ownPosts" class="tab-content active">
+            {{range .OwnPosts}}
+            <div id="centercont">
+                <li>{{.Title}} - {{.Content}}</li>
+                <br><br>
+                {{.CreatedAtFormatted}} &nbsp; {{.LikeCount}} Likes {{.DislikeCount}} Dislikes {{.CommentCount}} Comments
+                <form id="deletePostForm" action="/deletePost" method="post">
+                    <input type="hidden" name="post_id" value="{{.ID}}">
+                    <button type="submit">
+                        <img src="/static/png/delete.png" alt="Delete">
+                    </button>
+                </form>
             </div>
-            <div>
-                <p><strong>Liked Posts</strong></p>
-                <p>2</p>
+            {{else}}
+            <p>Henüz hiçbir post oluşturmadınız.</p>
+            {{end}}
+        </div>
+
+        <div id="likedPosts" class="tab-content">
+            {{range .LikedPosts}}
+            <div id="centercont">
+                <li> {{.Title}} - {{.Content}}</li>
+                <br><br>
+                {{.CreatedAtFormatted}} &nbsp; {{.LikeCount}} Likes {{.DislikeCount}} Dislikes {{.CommentCount}} Comments
+                <form id="deletePostForm" action="/deletePost" method="post">
+                    <input type="hidden" name="post_id" value="{{.ID}}">
+                    <button type="submit">
+                        <img src="/static/png/delete.png" alt="Delete">
+                    </button>
+                </form>
             </div>
-            <div>
-                <p><strong>Liked Comments</strong></p>
-                <p>768</p>
-            </div>
+            {{else}}
+            <p>Henüz hiçbir gönderiyi beğenmediniz.</p>
+            {{end}}
         </div>
     </div>
 
@@ -87,6 +115,48 @@
         function closeLogin() {
             window.location.href = 'index.html';
         }
+
+        // Tab değişimlerini dinle
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+
+                // Aktif sekmenin sınıfını güncelle
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Aktif sekmenin içeriğini göster
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                        console.log(tabId +
+                            " içeriği gösteriliyor."
+                        ); // Tıklanan sekmenin ID'sini konsola yazdırın
+                    } else {
+                        content.classList.remove('active');
+                        console.log(content.id +
+                            " içeriği gizleniyor."
+                        ); // Tıklanan sekmenin ID'sini konsola yazdırın
+                    }
+                });
+            });
+        });
+
+        // Liked Posts sekmesi dinleyicisi
+        document.querySelector('[data-tab="likedPosts"]').addEventListener('click', function () {
+            const tabId = this.getAttribute('data-tab');
+
+            // Aktif sekmenin sınıfını güncelle
+            document.querySelector('.tab.active').classList.remove('active');
+            this.classList.add('active');
+
+            // Aktif sekmenin içeriğini göster
+            document.querySelector('.tab-content.active').classList.remove('active');
+            document.getElementById(tabId).classList.add('active');
+        });
     </script>
 </body>
 

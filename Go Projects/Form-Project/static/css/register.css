@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -21,6 +21,10 @@ body.night-mode .register-container {
     color: white;
 }
 
+body.night-mode .mavi-yazi a {
+    color: white;
+}
+
 a {
     margin-left: 30%;
     text-decoration: none;
@@ -30,7 +34,8 @@ a {
 .register-container {
     position: relative;
     background-color: #fff;
-    padding: 5%;
+    padding: 3%;
+    height: 78%;
     width: 25%;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -39,8 +44,8 @@ a {
 /* Kapatma düğmesi stil ayarları */
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0px;
+    right: 0px;
     width: 30px;
     height: 30px;
     background-color: transparent;
@@ -56,7 +61,7 @@ a {
 /* Başlık stil ayarları */
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 /* Etiket stil ayarları */
@@ -82,18 +87,17 @@ input[type="password"] {
 
 /* Diğer stil ayarları */
 input[type="text"],
-input[type="password"],
-h6 {
-    margin-top: 5px;
-    margin-bottom: 5px;
+input[type="password"] {
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 /* Kayıt düğmesi stil ayarları */
 button {
     display: block;
-    width: 86%;
+    width: 80%;
     margin: 0 auto;
-    margin-top: 5%;
+    margin-top: 2%;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -104,7 +108,77 @@ button {
     box-sizing: border-box;
 }
 
+
+#buttongiriscont {
+    width: 100%;
+    height: 11%;
+    padding-left: 25%;
+    margin-top: 2%;
+}
+
+#buttongirisgoogle button {
+    width: 20%;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    float: left;
+    margin-bottom: 5%;
+    margin-left: 15px;
+}
+
+#buttongirisgithub button {
+    width: 20%;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    float: left;
+    margin-left: 15px;
+    margin-top: -10px;
+}
+
 /* Kayıt düğmesi üzerine gelindiğinde stil ayarları */
 button:hover {
     background-color: #0056b3;
+}
+
+#buttongirisgoogle button:hover {
+    background-color: #0056b3;
+}
+#buttongirisgithub button:hover {
+    background-color: #0056b3;
+}
+
+.mavi-yazi a {
+    color: black;
+}
+
+.theme-mode {
+    position: absolute;
+    top: 15px; /* Üstten boşluk */
+    left: 0px; /* Soldan boşluk */
+}
+
+
+@media (max-width: 1920px) {
+    .register-container {
+        height: 60%;
+    }
+    a {
+        text-decoration: none;
+    }
+
+    .mavi-yazi a {
+        width: 52%;
+        float: left;
+    }
+}
+
+
+@media (max-width: 1600px) {
+    .register-container {
+        height: 70%;
+    }
+
 }

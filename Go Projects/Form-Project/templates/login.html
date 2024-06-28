@@ -12,6 +12,11 @@
     <script src="/static/scripts.js"></script>
     <!-- Giriş container'ı -->
     <div class="login-container" id="login-container">
+        <!-- Tema değiştirme düğmesi -->
+        <span class="theme-mode">
+            <a role="button" id="themeToggle" title="Tema Değiştir" href="javascript:void(0);">🌓
+                <i id="themeIcon" class="fas fa-sun"></i></a>
+        </span>
         <!-- Kapat düğmesi -->
         <button class="close-btn" onclick="closeLogin()">×</button>
         <!-- Başlık -->
@@ -28,10 +33,21 @@
             <button type="submit">Login</button>
         </form>
         <br>
-        <!-- Tema değiştirme düğmesi -->
-        <button id="themeToggle">Toggle Theme</button>
-        <p><a href="/register">Don't you have a subscription?</a></p>
-        <p><a href="/sifreunut">Forgot your password?</a></p>
+        <!-- Google ile giriş düğmesi -->
+        <div id="buttongiriscont">
+            <div id="buttongirisgoogle">
+                <a href="/google/login"><button class="google-btn"><img src="/static/png/google.png" width="50%"
+                            height="20%"></button></a>
+            </div>
+            <div id="buttongirisgithub">
+                <a href="/github/login"><button class="github-btn"><img src="/static/png/github.png" width="50%"
+                            height="20%"></button></a>
+            </div>
+
+        </div>
+
+        <p class="mavi-yazi"><a href="/register">Don't you have a subscription?</a></p>
+        <p class="mavi-yazi"><a href="/sifreunut">Forgot your password?</a></p>
     </div>
 
     <script>
